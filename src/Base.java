@@ -18,7 +18,7 @@ public class Base {
 	
 	public static void main(String[] args) {
 		Factory<PrimitiveMatrix> testFactory = PrimitiveMatrix.FACTORY;
-		double[][] testData = new double[][] {{1.0, 2.0, 3.0, 6.0}, {4.0, 5.0, 6.0, 8.0}, {7.0, 8.0, 9.0, 3.0}, {7.0, 8.0, 9.0, 4.0}};
+		double[][] testData = new double[][] {{5.0, 2.0, 3.0, 6.0}, {4.0, 5.0, 6.0, 8.0}, {7.0, 8.0, 9.0, 3.0}, {7.0, 8.0, 9.0, 4.0}};
 		BasicMatrix<?> testMatrix = testFactory.rows(testData);
 		//System.out.println(testMatrix.toString());
 		inverse(testData);
@@ -67,24 +67,35 @@ public class Base {
 					}
 				}
 			}
-
 			
-			System.out.println("\nFull Matrix:");
+			System.out.println("\nFull matrix before:");
 			for (int i = 0; i < full.length; i++) {
 				for (int j = 0; j < full[i].length; j++) {
 					System.out.print(full[i][j] + " ");
 				}
 				System.out.println("");
 			}
-		}
-		
-		
-		System.out.println("\nInverted Matrix:");
-		for (int i = 0; i < mat.length; i++) {
-			for (int j = 0; j < mat[i].length; j++) {
-				System.out.print(mat[i][j] + " ");
+			for (int h = 0; h < full.length; h++) {
+				double d = full[h][h];
+				for (int i = h; i < full[h].length; i++) {
+					full[h][i] = full[h][i] / d;
+				}
+				for (int i = h + 1; i < full.length; i++) {
+					double f = full[i][h];
+					for (int j = h; j < full[i].length; j++) {
+						full[i][j] = full[i][j] - full[h][j] * f;
+					}
+				}
 			}
-			System.out.println("");
+
+			
+			System.out.println("\nFull matrix after:");
+			for (int i = 0; i < full.length; i++) {
+				for (int j = 0; j < full[i].length; j++) {
+					System.out.print(full[i][j] + " ");
+				}
+				System.out.println("");
+			}
 		}
 		return mat;
 	}

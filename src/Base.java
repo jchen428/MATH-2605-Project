@@ -231,4 +231,49 @@ public class Base {
 		
 		return result;
 	}
+	
+	/**
+	 * gets the determinant.
+	 * @param matrixA
+	 * @return
+	 */
+	public static int determinant(float[][] matrixA) {
+	    int det = 0;
+	    int sign = 1;
+	    int i = matrixA.length;
+	    int j = matrixA[0].length;
+	    for (int l = 0; l < i; l++) {
+		float[][]innerMatrix = new float[i-1][j-1];
+		for (int m = 1; m < i; m++) {
+		    for(int n = 0; n < i; n++) {
+			if(n < i) {
+			    innerMatrix[m-1][n] = matrixA[m][n];
+			}   else {
+			    innerMatrix[m-1][n-1] = matrixA[m][n];
+			}
+		    }
+		}
+		if (l % 2 == 1) {
+		    sign = -1;
+		}
+		det = (int) (sign * matrixA[0][l]*(determinant(innerMatrix)));
+	    }
+	    return det;
+	}
+	
+	/**
+	 * does the trace
+	 * @param matrix
+	 * @return
+	 */
+	public static float trace(float[][] matrix) {
+	    if (matrix.length != matrix[0].length) {
+		throw new IllegalArgumentException();
+	    }
+	    float sum = 0;
+	    for (int i = 0; i < matrix.length; i++) {
+		sum = sum + matrix[i][i];
+	    }
+	    return sum;
+	}
 }

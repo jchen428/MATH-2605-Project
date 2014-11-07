@@ -65,6 +65,19 @@ public class Base {
  			}
 
 			//Reduce the original matrix
+			
+			for (int i = 0; i < numOfRows; i++) {
+				for (int j = 0; j < numOfCols; j++) {
+					double divider = mat[i][i];
+					mat[i][j] = mat[i][j] / divider;
+					identity[i][j] = identity[i][j] / divider;
+				}
+			}
+			
+			for (int i = 0; i < numOfRows; i++) {
+				
+			}
+			
 			print(mat);
 			print(identity);
 

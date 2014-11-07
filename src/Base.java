@@ -65,6 +65,7 @@ public class Base {
  			}
 
 			//Reduce the original matrix
+			print(mat);
 			
 			for (int i = 0; i < numOfRows; i++) {
 				for (int j = 0; j < numOfCols; j++) {
@@ -74,18 +75,38 @@ public class Base {
 				}
 			}
 			
-			for (int i = 0; i < numOfRows; i++) {
-				
-			}
-			
+			for (int p = 0; p < mat.length; ++p)
+		    {
+		        /* Make this pivot 1 */
+		        double pv = mat[p][p];
+		        if (pv != 0)
+		        {
+		            double pvInv = 1.0 / pv;
+		            for (int i = 0; i < mat[p].length; ++i)
+		            {
+		                mat[p][i] *= pvInv;
+		                identity[p][i] *= pvInv;
+		            }
+		        }
+
+		        /* Make other rows zero */
+		        for (int r = 0; r < mat.length; ++r)
+		        {
+		            if (r != p)
+		            {
+		                double f = mat[r][p];
+		                for (int i = 0; i < mat[r].length; ++i)
+		                {
+		                    mat[r][i] -= f * mat[p][i];
+		                    identity[r][i] -= f * mat[p][i];
+		                }
+		            }
+		        }
+		    }
 			print(mat);
 			print(identity);
-
 		}
-		
-		
 	}
-
 	
 		
     public static double[][] invert(double mat[][]) {

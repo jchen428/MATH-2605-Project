@@ -16,7 +16,7 @@ public class Base {
     //6. rotate, reflect, project vectors - Jesse
 	
 	public static void main(String[] args) {
-		double[][] test = {{5.0,9.0,2.0},{3.0,74.0,9.0},{5.0,6.0,7.0}};
+		double[][] test = {{2.0,3.0,2.0},{3.0,2.0,3.0},{23.0,3.0,2.0}};
 		print(test);
 		
 		float[][] a = new float[][] {
@@ -38,48 +38,13 @@ public class Base {
 		DecimalFormat df = new DecimalFormat("0.00");
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a[i].length; j++) {
-				System.out.print(df.format(a[i][j]) + " " + "\t");
+				System.out.print(a[i][j] + " " + "\t");
 			}
 			System.out.print("\n");
 		}
 		System.out.print("\n");
 	}
-	
-//	public static void inverse(double[][] mat) {
-//		if (mat == null) {
-//			throw new IllegalArgumentException("Null argument");
-//		} else if (mat.length != mat[0].length) {
-//			throw new IllegalArgumentException("Matrix is not square");
-//		} else {
-//
-//			//Create the identity matrix of size mat.length x mat.length
-//			int numOfRows = mat.length;
-//			int numOfCols = mat[0].length;
-//			double[][] identity = new double[numOfRows][numOfCols];
-//			for (int i = 0; i < numOfRows; i++) {
-//				for (int j = 0; j < numOfCols; j++) {
-//					if (i == j) {
-//						identity[i][j] = 1.0;
-//					}
-//				}
-// 			}
-//
-//			//make the diagonals ones
-//			for (int r = 0; r < numOfRows; r++) {
-//				double divide = mat[r][r];
-//				for (int c = 0; c < numOfCols; c++) {
-//					mat[r][c] = mat[r][c] / divide;
-//					identity[r][c] = identity[r][c] / divide;
-//				}
-//			}
-//			
-//			
-//			print(mat);
-//			print(identity);
-//		}
-//	}
-//	
-//		
+		
 //    public static double[][] invert(double mat[][]) {
 //	    if (mat != null) {
 //    	    int l = mat.length;

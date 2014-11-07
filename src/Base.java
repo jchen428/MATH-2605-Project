@@ -17,7 +17,7 @@ public class Base {
 
 	
 	public static void main(String[] args) {
-		double[][] test = {{1.0,2.0,3.0},{4.0,5.0,6.0},{7.0,8.0,9.0}};
+		double[][] test = {{5.0,9.0,2.0},{3.0,74.0,9.0},{5.0,6.0,7.0}};
 		inverse(test);		
 		
 		float[][] a = new float[][] {
@@ -75,34 +75,7 @@ public class Base {
 				}
 			}
 			
-			for (int p = 0; p < mat.length; ++p)
-		    {
-		        /* Make this pivot 1 */
-		        double pv = mat[p][p];
-		        if (pv != 0)
-		        {
-		            double pvInv = 1.0 / pv;
-		            for (int i = 0; i < mat[p].length; ++i)
-		            {
-		                mat[p][i] *= pvInv;
-		                identity[p][i] *= pvInv;
-		            }
-		        }
-
-		        /* Make other rows zero */
-		        for (int r = 0; r < mat.length; ++r)
-		        {
-		            if (r != p)
-		            {
-		                double f = mat[r][p];
-		                for (int i = 0; i < mat[r].length; ++i)
-		                {
-		                    mat[r][i] -= f * mat[p][i];
-		                    identity[r][i] -= f * mat[p][i];
-		                }
-		            }
-		        }
-		    }
+			
 			print(mat);
 			print(identity);
 		}

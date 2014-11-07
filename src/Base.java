@@ -2,6 +2,7 @@ import org.ojalgo.matrix.BasicMatrix;
 import org.ojalgo.matrix.BasicMatrix.Factory;
 import org.ojalgo.matrix.PrimitiveMatrix;
 import java.util.Arrays;
+import java.text.DecimalFormat;
 
 
 public class Base {
@@ -14,11 +15,9 @@ public class Base {
     //5. eigenvalues and eigenvectors - Jesse
     //6. rotate, reflect, project vectors - Jesse
 	
-
-	
 	public static void main(String[] args) {
 		double[][] test = {{5.0,9.0,2.0},{3.0,74.0,9.0},{5.0,6.0,7.0}};
-		inverse(test);		
+		print(test);
 		
 		float[][] a = new float[][] {
 				{2, 6, 34, 7, 7},
@@ -36,136 +35,135 @@ public class Base {
 	}
 	
 	public static void print(double[][] a) {
-		System.out.print("\n");
+		DecimalFormat df = new DecimalFormat("0.00");
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a[i].length; j++) {
-				System.out.print(a[i][j] + " ");
+				System.out.print(df.format(a[i][j]) + " " + "\t");
 			}
 			System.out.print("\n");
 		}
+		System.out.print("\n");
 	}
 	
-	public static void inverse(double[][] mat) {
-		if (mat == null) {
-			throw new IllegalArgumentException("Null argument");
-		} else if (mat.length != mat[0].length) {
-			throw new IllegalArgumentException("Matrix is not square");
-		} else {
-
-			//Create the identity matrix of size mat.length x mat.length
-			int numOfRows = mat.length;
-			int numOfCols = mat[0].length;
-			double[][] identity = new double[numOfRows][numOfCols];
-			for (int i = 0; i < numOfRows; i++) {
-				for (int j = 0; j < numOfCols; j++) {
-					if (i == j) {
-						identity[i][j] = 1.0;
-					}
-				}
- 			}
-
-			//Reduce the original matrix
-			print(mat);
-			
-			for (int i = 0; i < numOfRows; i++) {
-				for (int j = 0; j < numOfCols; j++) {
-					double divider = mat[i][i];
-					mat[i][j] = mat[i][j] / divider;
-					identity[i][j] = identity[i][j] / divider;
-				}
-			}
-			
-			
-			print(mat);
-			print(identity);
-		}
-	}
-	
-		
-    public static double[][] invert(double mat[][]) {
-	    if (mat != null) {
-    	    int l = mat.length;
-	        double ret[][] = new double[l][l];
-	        double b[][] = new double[l][l];
-	        int index[] = new int[l];
-	        for (int i=0; i<l; ++i) 
-	            b[i][i] = 1;
-	 
-	        upperTriangular(mat, index);
-	 
-	        for (int i = 0; i < l - 1; ++i)
-	            for (int j = i + 1; j < l; ++j)
-	                for (int k = 0; k < l; ++k)
-	                    b[index[j]][k]
-	                    	    -= mat[index[j]][i] * b[index[i]][k];
-	 
-	        for (int i=0; i<l; ++i) 
-	        {
-	            ret[l-1][i] = b[index[l-1]][i] / mat[index[l-1]][l-1];
-	            for (int j=l-2; j>=0; --j) 
-	            {
-	                ret[j][i] = b[index[j]][i];
-	                for (int k = j + 1; k < l; ++k) 
-	                {
-	                    ret[j][i] -= mat[index[j]][k]*ret[k][i];
-	                }
-	                ret[j][i] /= mat[index[j]][j];
-	            }
-	        }
-	        return ret;
-	    } else {
-	    	throw new IllegalArgumentException("Argument is null.");
-	    }
-    }
-
-    
-    /**
-	 * Puts a matrix in upper triangular
-	 * @param a Left matrix
-	 * @param b Right Matrix
-	 * @return The resulting matrix
-	 */
-    public static void upperTriangular(double a[][], int index[]) 
-    {
-        int length = index.length;
-        double c[] = new double[length];
-        for (int i = 0; i < length; ++i) { 
-            index[i] = i;
-        }
-        for (int i = 0; i < length; ++i) {
-            double c1 = 0;
-            for (int j = 0; j < length; ++j) {
-                double c0 = Math.abs(a[i][j]);
-                if (c0 > c1) c1 = c0;
-            }
-            c[i] = c1;
-        }
-        int k = 0;
-        for (int j = 0; j < length-1; ++j) 
-        {
-            double pi1 = 0;
-            for (int i = j; i < length; ++i) 
-            {
-                double pi0 = Math.abs(a[index[i]][j]);
-                pi0 /= c[index[i]];
-                if (pi0 > pi1) 
-                {
-                    pi1 = pi0;
-                    k = i;
-                }
-            }
-            int itmp = index[j];
-            index[j] = index[k];
-            index[k] = itmp;
-            for (int i = j + 1; i < length; ++i) 	
-            {
-                double pj = a[index[i]][j] / a[index[j]][j];
-                a[index[i]][j] = pj;
-                for (int l = j + 1; l < length; ++l)
-                    a[index[i]][l] -= pj * a[index[j]][l];
-            }
-        }
-    }
+//	public static void inverse(double[][] mat) {
+//		if (mat == null) {
+//			throw new IllegalArgumentException("Null argument");
+//		} else if (mat.length != mat[0].length) {
+//			throw new IllegalArgumentException("Matrix is not square");
+//		} else {
+//
+//			//Create the identity matrix of size mat.length x mat.length
+//			int numOfRows = mat.length;
+//			int numOfCols = mat[0].length;
+//			double[][] identity = new double[numOfRows][numOfCols];
+//			for (int i = 0; i < numOfRows; i++) {
+//				for (int j = 0; j < numOfCols; j++) {
+//					if (i == j) {
+//						identity[i][j] = 1.0;
+//					}
+//				}
+// 			}
+//
+//			//make the diagonals ones
+//			for (int r = 0; r < numOfRows; r++) {
+//				double divide = mat[r][r];
+//				for (int c = 0; c < numOfCols; c++) {
+//					mat[r][c] = mat[r][c] / divide;
+//					identity[r][c] = identity[r][c] / divide;
+//				}
+//			}
+//			
+//			
+//			print(mat);
+//			print(identity);
+//		}
+//	}
+//	
+//		
+//    public static double[][] invert(double mat[][]) {
+//	    if (mat != null) {
+//    	    int l = mat.length;
+//	        double ret[][] = new double[l][l];
+//	        double b[][] = new double[l][l];
+//	        int index[] = new int[l];
+//	        for (int i=0; i<l; ++i) 
+//	            b[i][i] = 1;
+//	 
+//	        upperTriangular(mat, index);
+//	 
+//	        for (int i = 0; i < l - 1; ++i)
+//	            for (int j = i + 1; j < l; ++j)
+//	                for (int k = 0; k < l; ++k)
+//	                    b[index[j]][k]
+//	                    	    -= mat[index[j]][i] * b[index[i]][k];
+//	 
+//	        for (int i=0; i<l; ++i) 
+//	        {
+//	            ret[l-1][i] = b[index[l-1]][i] / mat[index[l-1]][l-1];
+//	            for (int j=l-2; j>=0; --j) 
+//	            {
+//	                ret[j][i] = b[index[j]][i];
+//	                for (int k = j + 1; k < l; ++k) 
+//	                {
+//	                    ret[j][i] -= mat[index[j]][k]*ret[k][i];
+//	                }
+//	                ret[j][i] /= mat[index[j]][j];
+//	            }
+//	        }
+//	        return ret;
+//	    } else {
+//	    	throw new IllegalArgumentException("Argument is null.");
+//	    }
+//    }
+//
+//    
+//    /**
+//	 * Puts a matrix in upper triangular
+//	 * @param a Left matrix
+//	 * @param b Right Matrix
+//	 * @return The resulting matrix
+//	 */
+//    public static void upperTriangular(double a[][], int index[]) 
+//    {
+//        int length = index.length;
+//        double c[] = new double[length];
+//        for (int i = 0; i < length; ++i) { 
+//            index[i] = i;
+//        }
+//        for (int i = 0; i < length; ++i) {
+//            double c1 = 0;
+//            for (int j = 0; j < length; ++j) {
+//                double c0 = Math.abs(a[i][j]);
+//                if (c0 > c1) c1 = c0;
+//            }
+//            c[i] = c1;
+//        }
+//        int k = 0;
+//        for (int j = 0; j < length-1; ++j) 
+//        {
+//            double pi1 = 0;
+//            for (int i = j; i < length; ++i) 
+//            {
+//                double pi0 = Math.abs(a[index[i]][j]);
+//                pi0 /= c[index[i]];
+//                if (pi0 > pi1) 
+//                {
+//                    pi1 = pi0;
+//                    k = i;
+//                }
+//            }
+//            int itmp = index[j];
+//            index[j] = index[k];
+//            index[k] = itmp;
+//            for (int i = j + 1; i < length; ++i) 	
+//            {
+//                double pj = a[index[i]][j] / a[index[j]][j];
+//                a[index[i]][j] = pj;
+//                for (int l = j + 1; l < length; ++l)
+//                    a[index[i]][l] -= pj * a[index[j]][l];
+//            }
+//        }
+//    }
 
     /**
 	 * Multiplies to matrices in order given

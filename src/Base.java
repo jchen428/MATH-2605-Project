@@ -1,7 +1,7 @@
 import org.ojalgo.matrix.BasicMatrix;
 import org.ojalgo.matrix.BasicMatrix.Factory;
 import org.ojalgo.matrix.PrimitiveMatrix;
-import java.lang.Math;
+import java.util.Arrays;
 
 
 public class Base {
@@ -17,10 +17,7 @@ public class Base {
 
 	
 	public static void main(String[] args) {
-		Factory<PrimitiveMatrix> testFactory = PrimitiveMatrix.FACTORY;
 		double[][] testData = new double[][] {{5.0, 2.0, 3.0, 6.0}, {4.0, 5.0, 6.0, 8.0}, {7.0, 8.0, 9.0, 3.0}, {7.0, 8.0, 9.0, 4.0}};
-		BasicMatrix<?> testMatrix = testFactory.rows(testData);
-		//System.out.println(testMatrix.toString());
 		
 		System.out.println("Original Matrix:");
 		for (int i = 0; i < testData.length; i++) {
@@ -40,8 +37,23 @@ public class Base {
 			System.out.println("");
 		}
 		
+		
+		
+		float[][] a = new float[][] {
+				{2, 6, 34, 7, 7},
+				{5, 7, 2, 56, 4},
+				{4, 45, 67, 3, 75},
+		};
+		float[][] b = new float[][] {
+				{27, 8},
+				{84, 3},
+				{4, 89},
+				{12, 68},
+				{86, 3}
+		};
+		System.out.println("\n" + Arrays.deepToString(matrixMult(a, b)));
 	}
-	
+		
     public static double[][] invert(double mat[][]) 
     {
         int l = mat.length;
@@ -195,4 +207,73 @@ public class Base {
 //				}
 //				
 //			}
+
+    /**
+	 * Multiplies to matrices in order given
+	 * @param a Left matrix
+	 * @param b Right Matrix
+	 * @return The resulting matrix
+	 */
+	public static float[][] matrixMult(float[][] a, float[][] b) {
+		if (a[0].length != b.length) {
+			return null;
+		}
+		
+		float[][] result = new float[a.length][b[0].length];
+		
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < b[0].length; j++) {
+				for (int k = 0; k < b.length; k++) {
+					result[i][j] += a[i][k] * b[k][j];
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * gets the determinant.
+	 * @param matrixA
+	 * @return
+	 */
+	public static int determinant(float[][] matrixA) {
+	    int det = 0;
+	    int sign = 1;
+	    int i = matrixA.length;
+	    int j = matrixA[0].length;
+	    for (int l = 0; l < i; l++) {
+		float[][]innerMatrix = new float[i-1][j-1];
+		for (int m = 1; m < i; m++) {
+		    for(int n = 0; n < i; n++) {
+			if(n < i) {
+			    innerMatrix[m-1][n] = matrixA[m][n];
+			}   else {
+			    innerMatrix[m-1][n-1] = matrixA[m][n];
+			}
+		    }
+		}
+		if (l % 2 == 1) {
+		    sign = -1;
+		}
+		det = (int) (sign * matrixA[0][l]*(determinant(innerMatrix)));
+	    }
+	    return det;
+	}
+	
+	/**
+	 * does the trace
+	 * @param matrix
+	 * @return
+	 */
+	public static float trace(float[][] matrix) {
+	    if (matrix.length != matrix[0].length) {
+		throw new IllegalArgumentException();
+	    }
+	    float sum = 0;
+	    for (int i = 0; i < matrix.length; i++) {
+		sum = sum + matrix[i][i];
+	    }
+	    return sum;
+	}
 }

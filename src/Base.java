@@ -17,6 +17,9 @@ public class Base {
 
 	
 	public static void main(String[] args) {
+		double[][] test = {{1.0,2.0,3.0},{4.0,5.0,6.0},{7.0,8.0,9.0}};
+		inverse(test);		
+		
 		float[][] a = new float[][] {
 				{2, 6, 34, 7, 7},
 				{5, 7, 2, 56, 4},
@@ -29,10 +32,46 @@ public class Base {
 				{12, 68},
 				{86, 3}
 		};
-		System.out.println("\n" + Arrays.deepToString(matrixMult(a, b)));
+		//System.out.println("\n" + Arrays.deepToString(matrixMult(a, b)));
 	}
 	
+	public static void print(double[][] a) {
+		System.out.print("\n");
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < a[i].length; j++) {
+				System.out.print(a[i][j] + " ");
+			}
+			System.out.print("\n");
+		}
+	}
 	
+	public static void inverse(double[][] mat) {
+		if (mat == null) {
+			throw new IllegalArgumentException("Null argument");
+		} else if (mat.length != mat[0].length) {
+			throw new IllegalArgumentException("Matrix is not square");
+		} else {
+
+			//Create the identity matrix of size mat.length x mat.length
+			int numOfRows = mat.length;
+			int numOfCols = mat[0].length;
+			double[][] identity = new double[numOfRows][numOfCols];
+			for (int i = 0; i < numOfRows; i++) {
+				for (int j = 0; j < numOfCols; j++) {
+					if (i == j) {
+						identity[i][j] = 1.0;
+					}
+				}
+ 			}
+
+			//Reduce the original matrix
+			print(mat);
+			print(identity);
+
+		}
+		
+		
+	}
 
 	
 		
@@ -72,6 +111,13 @@ public class Base {
 	    }
     }
 
+    
+    /**
+	 * Puts a matrix in upper triangular
+	 * @param a Left matrix
+	 * @param b Right Matrix
+	 * @return The resulting matrix
+	 */
     public static void upperTriangular(double a[][], int index[]) 
     {
         int length = index.length;

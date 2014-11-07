@@ -17,28 +17,6 @@ public class Base {
 
 	
 	public static void main(String[] args) {
-		double[][] testData = new double[][] {{5.0, 2.0, 3.0, 6.0}, {4.0, 5.0, 6.0, 8.0}, {7.0, 8.0, 9.0, 3.0}, {7.0, 8.0, 9.0, 4.0}};
-		
-		System.out.println("Original Matrix:");
-		for (int i = 0; i < testData.length; i++) {
-			for (int j = 0; j < testData[i].length; j++) {
-				System.out.print(testData[i][j] + " ");
-			}
-			System.out.println("");
-		}
-		
-		double[][] testDataInvert = invert(testData);
-		
-		System.out.println("Inverted Matrix:");
-		for (int i = 0; i < testDataInvert.length; i++) {
-			for (int j = 0; j < testDataInvert[i].length; j++) {
-				System.out.print(testDataInvert[i][j] + " ");
-			}
-			System.out.println("");
-		}
-		
-		
-		
 		float[][] a = new float[][] {
 				{2, 6, 34, 7, 7},
 				{5, 7, 2, 56, 4},
@@ -53,61 +31,67 @@ public class Base {
 		};
 		System.out.println("\n" + Arrays.deepToString(matrixMult(a, b)));
 	}
+	
+	
+
+	
 		
-    public static double[][] invert(double mat[][]) 
-    {
-        int l = mat.length;
-        double x[][] = new double[l][l];
-        double b[][] = new double[l][l];
-        int index[] = new int[l];
-        for (int i=0; i<l; ++i) 
-            b[i][i] = 1;
- 
-        gaussian(mat, index);
- 
-        for (int i=0; i<l-1; ++i)
-            for (int j=i+1; j<l; ++j)
-                for (int k=0; k<l; ++k)
-                    b[index[j]][k]
-                    	    -= mat[index[j]][i]*b[index[i]][k];
- 
-        for (int i=0; i<l; ++i) 
-        {
-            x[l-1][i] = b[index[l-1]][i]/mat[index[l-1]][l-1];
-            for (int j=l-2; j>=0; --j) 
-            {
-                x[j][i] = b[index[j]][i];
-                for (int k=j+1; k<l; ++k) 
-                {
-                    x[j][i] -= mat[index[j]][k]*x[k][i];
-                }
-                x[j][i] /= mat[index[j]][j];
-            }
-        }
-        return x;
+    public static double[][] invert(double mat[][]) {
+	    if (mat != null) {
+    	    int l = mat.length;
+	        double ret[][] = new double[l][l];
+	        double b[][] = new double[l][l];
+	        int index[] = new int[l];
+	        for (int i=0; i<l; ++i) 
+	            b[i][i] = 1;
+	 
+	        upperTriangular(mat, index);
+	 
+	        for (int i = 0; i < l - 1; ++i)
+	            for (int j = i + 1; j < l; ++j)
+	                for (int k = 0; k < l; ++k)
+	                    b[index[j]][k]
+	                    	    -= mat[index[j]][i] * b[index[i]][k];
+	 
+	        for (int i=0; i<l; ++i) 
+	        {
+	            ret[l-1][i] = b[index[l-1]][i] / mat[index[l-1]][l-1];
+	            for (int j=l-2; j>=0; --j) 
+	            {
+	                ret[j][i] = b[index[j]][i];
+	                for (int k = j + 1; k < l; ++k) 
+	                {
+	                    ret[j][i] -= mat[index[j]][k]*ret[k][i];
+	                }
+	                ret[j][i] /= mat[index[j]][j];
+	            }
+	        }
+	        return ret;
+	    } else {
+	    	throw new IllegalArgumentException("Argument is null.");
+	    }
     }
 
-    public static void gaussian(double a[][], int index[]) 
+    public static void upperTriangular(double a[][], int index[]) 
     {
-        int n = index.length;
-        double c[] = new double[n];
-        for (int i=0; i<n; ++i) 
+        int length = index.length;
+        double c[] = new double[length];
+        for (int i = 0; i < length; ++i) { 
             index[i] = i;
-        for (int i=0; i<n; ++i) 
-        {
+        }
+        for (int i = 0; i < length; ++i) {
             double c1 = 0;
-            for (int j=0; j<n; ++j) 
-            {
+            for (int j = 0; j < length; ++j) {
                 double c0 = Math.abs(a[i][j]);
                 if (c0 > c1) c1 = c0;
             }
             c[i] = c1;
         }
         int k = 0;
-        for (int j=0; j<n-1; ++j) 
+        for (int j = 0; j < length-1; ++j) 
         {
             double pi1 = 0;
-            for (int i=j; i<n; ++i) 
+            for (int i = j; i < length; ++i) 
             {
                 double pi0 = Math.abs(a[index[i]][j]);
                 pi0 /= c[index[i]];
@@ -120,12 +104,12 @@ public class Base {
             int itmp = index[j];
             index[j] = index[k];
             index[k] = itmp;
-            for (int i=j+1; i<n; ++i) 	
+            for (int i = j + 1; i < length; ++i) 	
             {
-                double pj = a[index[i]][j]/a[index[j]][j];
+                double pj = a[index[i]][j] / a[index[j]][j];
                 a[index[i]][j] = pj;
-                for (int l=j+1; l<n; ++l)
-                    a[index[i]][l] -= pj*a[index[j]][l];
+                for (int l = j + 1; l < length; ++l)
+                    a[index[i]][l] -= pj * a[index[j]][l];
             }
         }
     }

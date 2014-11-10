@@ -1,7 +1,7 @@
-import org.ojalgo.matrix.BasicMatrix;
+/*import org.ojalgo.matrix.BasicMatrix;
 import org.ojalgo.matrix.BasicMatrix.Factory;
 import org.ojalgo.matrix.PrimitiveMatrix;
-import java.util.Arrays;
+import java.util.Arrays;*/
 import java.text.DecimalFormat;
 
 
@@ -15,7 +15,7 @@ public class Base {
     //5. eigenvalues and eigenvectors - Jesse
     //6. rotate, reflect, project vectors - Jesse
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		double[][] test = {{2.0,3.0,2.0},{3.0,2.0,3.0},{23.0,3.0,2.0}};
 		print(test);
 		
@@ -32,7 +32,7 @@ public class Base {
 				{86, 3}
 		};
 		//System.out.println("\n" + Arrays.deepToString(matrixMult(a, b)));
-	}
+	}*/
 	
 	public static void print(double[][] a) {
 		DecimalFormat df = new DecimalFormat("0.00");
@@ -164,22 +164,25 @@ public class Base {
 	    int sign = 1;
 	    int i = matrixA.length;
 	    int j = matrixA[0].length;
+	    
 	    for (int l = 0; l < i; l++) {
-		float[][]innerMatrix = new float[i-1][j-1];
-		for (int m = 1; m < i; m++) {
-		    for(int n = 0; n < i; n++) {
-			if(n < i) {
-			    innerMatrix[m-1][n] = matrixA[m][n];
-			}   else {
-			    innerMatrix[m-1][n-1] = matrixA[m][n];
+			float[][] innerMatrix = new float[i-1][j-1];
+			
+			for (int m = 1; m < i; m++) {
+			    for(int n = 0; n < i; n++) {
+					if(n < i) {
+					    innerMatrix[m-1][n] = matrixA[m][n];
+					}   else {
+					    innerMatrix[m-1][n-1] = matrixA[m][n];
+					}
+			    }
 			}
-		    }
-		}
-		if (l % 2 == 1) {
-		    sign = -1;
-		}
-		det = (int) (sign * matrixA[0][l]*(determinant(innerMatrix)));
+			if (l % 2 == 1) {
+			    sign = -1;
+			}
+			det = (int) (sign * matrixA[0][l]*(determinant(innerMatrix)));
 	    }
+	    
 	    return det;
 	}
 	
@@ -190,12 +193,15 @@ public class Base {
 	 */
 	public static float trace(float[][] matrix) {
 	    if (matrix.length != matrix[0].length) {
-		throw new IllegalArgumentException();
+	    	throw new IllegalArgumentException();
 	    }
+	    
 	    float sum = 0;
+	    
 	    for (int i = 0; i < matrix.length; i++) {
-		sum = sum + matrix[i][i];
+	    	sum = sum + matrix[i][i];
 	    }
+	    
 	    return sum;
 	}
 

@@ -1,19 +1,11 @@
 package gaussnewton;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * Performs the modified Gauss-Newton method for a quadratic curve
  * 
  * @author Jesse
  */
-public class gn_qua extends Initializer {
+public class gn_qua extends Base {
 	
 	/**
 	 * Main method

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public abstract class Initializer {
+public abstract class Base {
 	
 	private Scanner keyboard = new Scanner(System.in);
 	
@@ -58,7 +58,7 @@ public abstract class Initializer {
 		
 		System.out.println("beta = " + triple);
 		
-		System.out.print("Enter maximum number of iterations: ");
+		System.out.print("Enter number of iterations: ");
 		N = keyboard.nextInt();
 	}
 	
@@ -75,7 +75,7 @@ public abstract class Initializer {
 			residuals[i][0] = pairs.get(i).getY() - function(triple.getX(), triple.getY(), triple.getZ(), pairs.get(i).getX());
 		}
 		
-		System.out.println("Max iterations = " + N);
+		System.out.println("Number of iterations = " + N);
 		System.out.println(Arrays.deepToString(residuals));
 		
 		for (int a = 0; a < n; a++) {
@@ -102,6 +102,14 @@ public abstract class Initializer {
 	 */
 	protected abstract float function(float a, float b, float c, float x);
 	
-	//qr_fact_househ
+	/**
+	 * Performs the QR-factorization of the jacobian matrix
+	 * 
+	 * @return An ArrayList of 2 floating point matrices, the first being Q and the second being R.
+	 */
+	public ArrayList<float[][]> qr_fact_househ() {
+		return null;
+	}
+	
 	//qr_fact_givens
 }

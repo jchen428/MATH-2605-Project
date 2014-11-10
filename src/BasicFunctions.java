@@ -5,7 +5,7 @@ import java.util.Arrays;*/
 import java.text.DecimalFormat;
 
 
-public class Base {
+public class BasicFunctions {
     //TO DO:
     //import matrix/vector basic functions(java.math??)
     //1. inverse of a matrix - Hannah

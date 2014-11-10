@@ -22,8 +22,8 @@ public class gn_qua  {
 	private static int N;
 	
 	private float[][] beta;
-	private float[][] r;
-	private float[][] j;
+	private float[][] residuals;
+	private float[][] jacobian;
 	
 	/**
 	 * Main method
@@ -82,25 +82,29 @@ public class gn_qua  {
 		N = iterations;
 		int n = pairs.size();
 		beta = new float[][] {{triple.getX()}, {triple.getY()}, {triple.getZ()}};
-		r = new float[n][1];
-		j = new float[n][3];
+		residuals = new float[n][1];
+		jacobian = new float[n][3];
 		
 		for (int i = 0; i < n; i++) {
-			r[i][0] = pairs.get(i).getY() - function(triple.getX(), triple.getY(), triple.getZ(), pairs.get(i).getX());
+			residuals[i][0] = pairs.get(i).getY() - function(triple.getX(), triple.getY(), triple.getZ(), pairs.get(i).getX());
 		}
 		
 		System.out.println("Max iterations = " + N);
-		System.out.println(Arrays.deepToString(r));
+		System.out.println(Arrays.deepToString(residuals));
 		
 		for (int a = 0; a < n; a++) {
-			for (int b = 0; b < 3; b++) {
-				j[a][b] = 0;
-			}
+			jacobian[a][0] = -(float) (Math.pow(pairs.get(a).getX(), 2));
+		}
+		for (int a = 0; a < n; a++) {
+			jacobian[a][1] = -pairs.get(a).getX();
+		}
+		for (int a = 0; a < n; a++) {
+			jacobian[a][2] = -1;
 		}
 	}
 	
 	private float function(float a, float b, float c, float x) {
-		float result = a * x * x + b * x + c;
+		float result = a * (float) (Math.pow(x, 2)) + b * x + c;
 		
 		return result;
 	}

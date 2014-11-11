@@ -5,7 +5,7 @@ package gaussnewton;
  * 
  * @author Jesse
  */
-public class gn_qua extends Base {
+public class gn_exp extends Base {
 	
 	/**
 	 * Main method
@@ -13,19 +13,19 @@ public class gn_qua extends Base {
 	 * @param args Unused
 	 */
 	public static void main(String[] args) {
-		gn_qua execute = new gn_qua();
+		gn_exp execute = new gn_exp();
 	}
 	
 	/**
 	 * Constructor
 	 */
-	public gn_qua() {
+	public gn_exp() {
 		initialize();
 		construct();
 	}
 	
 	/**
-	 * Applies parameters to a quadratic function of variable x
+	 * Applies parameters to an exponential function of variable x
 	 * 
 	 * @param a First parameter
 	 * @param b Second parameter
@@ -34,7 +34,7 @@ public class gn_qua extends Base {
 	 * @return result
 	 */
 	protected float function(float a, float b, float c, float x) {
-		float result = a * (float) (Math.pow(x, 2)) + b * x + c;
+		float result = a * (float) (Math.exp(b * x)) + c;
 		
 		return result;
 	}

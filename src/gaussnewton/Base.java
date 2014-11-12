@@ -17,6 +17,11 @@ public abstract class Base {
 				{5, 7, 2},
 				{4, 45, 67},
 		};
+		float[][] mat2 = new float[][] {
+				{2, 6, 34, 2, 2},
+				{5, 7, 2, 3, 3},
+				{4, 45, 67, 4, 4},
+		};
 		qr_fact_givens(mat);
 	}
 		
@@ -151,9 +156,13 @@ public abstract class Base {
 	        float y = mat[0][n-1];
 	        float cosX;
 	        float sinX;
+	        
+	        print(mat);
+	        print(g);
+	        print(q);
 	 
-	        for (int i = 0; i < n; i++) {
-	                for (int j = (m - 1); j > i; j--) {                                       
+	        for (int i = 0; i < m; i++) {
+	                for (int j = (n - 1); j > i; j--) {                                       
 	                    x = mat[j-1][i];
 	                    y = mat[j][i];   
 	                    cosX = (float) (x / (Math.sqrt( x * x + y * y)));
@@ -165,23 +174,23 @@ public abstract class Base {
 	                    g[j-1][j-1] = cosX;
 	                    mat = matrixMult(g, mat);
 	                    q = matrixMult(g, q); 
-	                    for (int k = 0; k < n; k++){
-	                        for (int l = 0; l < n; l++){
-	                            if (k == l)
-	                                g[k][l] = 1;
+	                    for (int ident = 0; ident < m; ident++){
+	                        for (int ident2 = 0; ident2 < n; ident2++){
+	                            if (ident==ident2)
+	                                g[ident][ident2] = 1;
 	                            else
-	                                g[k][l] = 0;
+	                                g[ident][ident2] = 0;
 	                        }
 	                    }  
 	                }
 	        }
 	         
-	        System.out.println("Q:");
-	        print(q);
-	         
-	        System.out.println("R:");
-	        print(mat);
-			
+	        q = transpose(q);
+//	        System.out.println("Q:");
+//	        print(q);
+//	        System.out.println("R:");
+//	        print(mat);
+	        print(matrixMult(q,mat));
 	        ret.add(q);
 	        ret.add(mat);
 			return ret;
@@ -225,8 +234,6 @@ public abstract class Base {
 					trans[j][i] = mat[i][j];
 				}
 			}
-			print(mat);
-			print(trans);
 			return trans;
 		}
 

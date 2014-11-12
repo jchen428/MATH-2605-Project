@@ -18,11 +18,13 @@ public abstract class Base {
 				{4, 45, 67},
 		};
 		float[][] mat2 = new float[][] {
-				{2, 6, 34, 2, 2},
-				{5, 7, 2, 3, 3},
-				{4, 45, 67, 4, 4},
+				{2, 6, 34},
+				{5, 7, 2},
+				{4, 45, 67},
+				{2, 6, 34},
+				{5, 7, 2},
 		};
-		qr_fact_givens(mat);
+		qr_fact_givens(mat2);
 	}
 		
 		private Scanner keyboard = new Scanner(System.in);
@@ -135,12 +137,12 @@ public abstract class Base {
 			int m = mat.length;
 			int n = mat[0].length;
 			ArrayList<float[][]> ret = new ArrayList<>();
-			
-			float[][] g = new float[m][n];
-			float[][] q = new float[m][n];
+			float[][] g = new float[m][m];
+			float[][] q = new float[m][m];
 					
+			//Make G an identity
 			for (int i = 0; i < m; i++){
-	            for (int j = 0; j < n; j++){
+	            for (int j = 0; j < m; j++){
 	                if (i == j){
 	                    g[i][j] = 1;
 	                    q[i][j] = 1;
@@ -156,41 +158,60 @@ public abstract class Base {
 	        float y = mat[0][n-1];
 	        float cosX;
 	        float sinX;
-	        
-	        print(mat);
-	        print(g);
-	        print(q);
 	 
-	        for (int i = 0; i < m; i++) {
-	                for (int j = (n - 1); j > i; j--) {                                       
+	        //Iteration for givens rotations
+	        for (int i = 0; i < n; i++) {
+	                for (int j = (m - 1); j > i; j--) {
 	                    x = mat[j-1][i];
 	                    y = mat[j][i];   
 	                    cosX = (float) (x / (Math.sqrt( x * x + y * y)));
 	                    sinX = (float) (-y / (Math.sqrt(x * x + y * y)));
-	                     
 	                    g[j][j] = cosX;
 	                    g[j][j-1] = sinX;
 	                    g[j-1][j] = -sinX;
 	                    g[j-1][j-1] = cosX;
 	                    mat = matrixMult(g, mat);
 	                    q = matrixMult(g, q); 
-	                    for (int ident = 0; ident < m; ident++){
-	                        for (int ident2 = 0; ident2 < n; ident2++){
-	                            if (ident==ident2)
-	                                g[ident][ident2] = 1;
+	                    for (int k = 0; k < m; k++){
+	                        for (int l = 0; l < m; l++){
+	                            if (k == l)
+	                                g[k][l] = 1;
 	                            else
-	                                g[ident][ident2] = 0;
+	                                g[k][l] = 0;
 	                        }
 	                    }  
 	                }
 	        }
 	         
 	        q = transpose(q);
-//	        System.out.println("Q:");
-//	        print(q);
-//	        System.out.println("R:");
-//	        print(mat);
+	        
+	        //Get rid of the padding zeroes
+	        if (m != n) {
+	        	float[][] newMat = new float[n][n];
+	        	for (int i = 0; i < n; i++) {
+	        		for (int j = 0; j < n; j++) {
+	        			newMat[i][j] = mat[i][j];
+	        		}
+	        	}
+	        	mat = newMat;
+	        	float[][] newQ = new float[m][n];
+	        	for (int i = 0; i < m; i++) {
+	        		for (int j = 0; j < n; j++) {
+	        			newQ[i][j] = q[i][j];
+	        		}
+	        	}
+	        	q = newQ;
+	        }
+	        
+	        //Print out Q, R, and QR to check that it equals the input
+	        System.out.println("Q:");
+	        print(q);
+	        System.out.println("R:");
+	        print(mat);
+	        System.out.println("QR:");
 	        print(matrixMult(q,mat));
+	        
+	        //Add Q and R to the ArrayList to return
 	        ret.add(q);
 	        ret.add(mat);
 			return ret;

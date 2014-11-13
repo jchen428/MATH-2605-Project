@@ -1,8 +1,5 @@
 package basicfunctions;
 
-import java.text.DecimalFormat;
-
-
 public class BasicFunctions {
     //TO DO:
     //import matrix/vector basic functions(java.math??)
@@ -13,24 +10,28 @@ public class BasicFunctions {
     //5. eigenvalues and eigenvectors - Jesse
     //6. rotate, reflect, project vectors - Jesse
 	
-	/*public static void main(String[] args) {
-		double[][] test = {{2.0,3.0,2.0},{3.0,2.0,3.0},{23.0,3.0,2.0}};
-		print(test);
-		
+	public static void main(String[] args) {
 		float[][] a = new float[][] {
 				{2, 6, 34, 7, 7},
 				{5, 7, 2, 56, 4},
 				{4, 45, 67, 3, 75},
 		};
 		float[][] b = new float[][] {
-				{27, 8},
-				{84, 3},
-				{4, 89},
-				{12, 68},
-				{86, 3}
+				{27, 8, 54, 2, 6},
+				{84, 3, 8, 90, 12},
+				{4, 89, 12, 68, 3}
 		};
-		//System.out.println("\n" + Arrays.deepToString(matrixMult(a, b)));
-	}*/
+		float[][] v = {{7}, {3}, {8}, {4}};
+		float s = 2;
+		
+		//System.out.println("a + b = ");
+		//print(matrixAdd(a, b));
+		//System.out.println("Norm(a) = " + norm(v));
+		//print(scalarMult(a, s));
+		//print(scalarMult(v, s));
+		//System.out.println(norm(v));
+		//print(unitize(v));
+	}
 	
 	public static void print(float[][] a) {
 		for (int i = 0; i < a.length; i++) {
@@ -127,21 +128,51 @@ public class BasicFunctions {
 //        }
 //    }
 
-    /**
+	/**
+	 * Adds to matrices
+	 * 
+	 * @param a First matrix
+	 * @param b Second matrix
+	 * @return The resulting matrix
+	 */
+	public static float[][] matrixAdd(float[][] a, float[][] b) {
+		int m = a.length;
+		int n = a[0].length;
+		
+		if (m != b.length && n != b[0].length) {
+			return null;
+		}
+		
+		float[][] result = new float[a.length][a[0].length];
+		
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				result[i][j] = a[i][j] + b[i][j];
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * Multiplies to matrices in order given
+	 * 
 	 * @param a Left matrix
 	 * @param b Right Matrix
 	 * @return The resulting matrix
 	 */
 	public static float[][] matrixMult(float[][] a, float[][] b) {
+		int m = a.length;
+		int n = b[0].length;
+		
 		if (a[0].length != b.length) {
 			return null;
 		}
 		
-		float[][] result = new float[a.length][b[0].length];
+		float[][] result = new float[m][n];
 		
-		for (int i = 0; i < a.length; i++) {
-			for (int j = 0; j < b[0].length; j++) {
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
 				for (int k = 0; k < b.length; k++) {
 					result[i][j] += a[i][k] * b[k][j];
 				}
@@ -149,6 +180,68 @@ public class BasicFunctions {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * Multiplies a matrix by a scalar
+	 * 
+	 * @param mat Matrix
+	 * @param s Scalar
+	 * @return The resulting matrix
+	 */
+	public static float[][] scalarMult(float[][] mat, float s) {
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				mat[i][j] *= s;
+			}
+		}
+		
+		return mat;
+	}
+	
+	/**
+	 * Calculates the norm of a vector v
+	 * 
+	 * @param v Vector
+	 * @return The norm of v
+	 */
+	public static Float norm(float[][] v) {
+		if (v[0].length != 1) {
+			return null;
+		}
+		
+		int m = v.length;
+		float sumSquares = 0;
+		float norm;
+		
+		for (int i = 0; i < m; i++) {
+			sumSquares += Math.pow(v[i][0], 2);
+		}
+		
+		norm = (float) Math.sqrt(sumSquares);
+		
+		return norm;
+	}
+	
+	/**
+	 * Unitizes a vector v
+	 * 
+	 * @param v Vector
+	 * @return Unitized v
+	 */
+	public static float[][] unitize(float[][] v) {
+		if (v[0].length != 1) {
+			return null;
+		}
+		
+		int m = v.length;
+		float norm = norm(v);
+		
+		for (int i = 0; i < m; i++) {
+			v[i][0] /= norm;
+		}
+		
+		return v;
 	}
 	
 	/**
@@ -168,7 +261,8 @@ public class BasicFunctions {
 	}
 	
 	/**
-	 * gets the determinant.
+	 * Gets the determinant
+	 * 
 	 * @param matrixA
 	 * @return
 	 */
@@ -200,7 +294,8 @@ public class BasicFunctions {
 	}
 	
 	/**
-	 * does the trace
+	 * Does the trace
+	 * 
 	 * @param matrix
 	 * @return
 	 */

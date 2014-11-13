@@ -33,8 +33,8 @@ public class gn_qua extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float function(float a, float b, float c, float x) {
-		float result = a * (float) (Math.pow(x, 2)) + b * x + c;
+	protected float function(float b1, float b2, float b3, float x) {
+		float result = b1 * (float) (Math.pow(x, 2)) + b2 * x + b3;
 		
 		return result;
 	}
@@ -48,7 +48,7 @@ public class gn_qua extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float drdB1(float a, float b, float c, float x) {
+	protected float drdB1(float b1, float b2, float b3, float x) {
 		float result = -(float) (Math.pow(x, 2));
 		
 		return result;
@@ -63,7 +63,7 @@ public class gn_qua extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float drdB2(float a, float b, float c, float x) {
+	protected float drdB2(float b1, float b2, float b3, float x) {
 		float result = -x;
 		
 		return result;
@@ -78,7 +78,7 @@ public class gn_qua extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float drdB3(float a, float b, float c, float x) {
+	protected float drdB3(float b1, float b2, float b3, float x) {
 		float result = -1;
 		
 		return result;

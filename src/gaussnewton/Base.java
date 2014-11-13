@@ -26,7 +26,7 @@ public abstract class Base {
 		};
 		//qr_fact_givens(mat);
 		//qr_fact_givens(mat2);
-
+		qr_fact_househ(mat);
 	}
 		
 		private static Scanner keyboard = new Scanner(System.in);
@@ -83,7 +83,6 @@ public abstract class Base {
 			System.out.print("Enter initial guess for parameter c: ");
 			float c = keyboard.nextFloat();
 			beta = new float[][] {{a}, {b}, {c}};
-			//triple = new NTuple(a, b, c);
 			
 			System.out.println("Beta = ");
 			BasicFunctions.print(beta);
@@ -139,7 +138,7 @@ public abstract class Base {
 		 * @param x Variable
 		 * @return result
 		 */
-		protected abstract float function(float a, float b, float c, float x);
+		protected abstract float function(float b1, float b2, float b3, float x);
 		
 		/**
 		 * Calculates the partial derivative of r with respect to Beta1
@@ -150,7 +149,7 @@ public abstract class Base {
 		 * @param x Variable
 		 * @return result
 		 */
-		protected abstract float drdB1(float a, float b, float c, float x);
+		protected abstract float drdB1(float b1, float b2, float b3, float x);
 		
 		/**
 		 * Calculates the partial derivative of r with respect to Beta2
@@ -161,7 +160,7 @@ public abstract class Base {
 		 * @param x Variable
 		 * @return result
 		 */
-		protected abstract float drdB2(float a, float b, float c, float x);
+		protected abstract float drdB2(float b1, float b2, float b3, float x);
 		
 		/**
 		 * Calculates the partial derivative of r with respect to Beta3
@@ -172,14 +171,39 @@ public abstract class Base {
 		 * @param x Variable
 		 * @return result
 		 */
-		protected abstract float drdB3(float a, float b, float c, float x);
+		protected abstract float drdB3(float b1, float b2, float b3, float x);
 		
 		/**
 		 * Performs the QR-factorization of the jacobian matrix using Householder reflections
 		 * 
 		 * @return An ArrayList of 2 floating point matrices, the first being Q and the second being R.
 		 */
-		public ArrayList<float[][]> qr_fact_househ() {
+		public static ArrayList<float[][]> qr_fact_househ(float[][] mat) {
+			int m = mat.length;
+			float[][] x = new float[m][1];
+			
+			for (int i = 0; i < mat.length; i++) {
+				x[i][0] = mat[i][0];
+			}
+			
+			BasicFunctions.print(x);
+			System.out.println(BasicFunctions.norm(x));
+			
+			float[][] v = x;
+			
+			BasicFunctions.print(v);
+			System.out.println(v[0][0] + BasicFunctions.norm(x));
+			
+			v[0][0] += BasicFunctions.norm(x);
+			float[][] u = BasicFunctions.unitize(v);
+			
+			BasicFunctions.print(v);
+			BasicFunctions.print(u);
+			
+			for (int i = 0; i < m; i++) {
+				x[i][0] = mat[i][0];
+			}
+			
 			return null;
 		}
 		
@@ -194,16 +218,6 @@ public abstract class Base {
 			ArrayList<float[][]> ret = new ArrayList<>();
 			float[][] g = BasicFunctions.makeIdentity(m);
 			float[][] q = BasicFunctions.makeIdentity(m);
-					
-			//Make G and Q identity matrices
-			for (int i = 0; i < m; i++){
-	            for (int j = 0; j < m; j++){
-	                if (i == j){
-	                    g[i][j] = 1;
-	                    q[i][j] = 1;
-	                }
-	            }
-	        }
 			
 	        float x = mat[0][n-2];
 	        float y = mat[0][n-1];

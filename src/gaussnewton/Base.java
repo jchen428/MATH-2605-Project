@@ -32,7 +32,6 @@ public abstract class Base {
 		private Scanner keyboard = new Scanner(System.in);
 		
 		private ArrayList<NTuple> pairs = new ArrayList<NTuple>();
-		//private NTuple triple;
 		private int N;
 		
 		private float[][] beta;
@@ -76,7 +75,6 @@ public abstract class Base {
 			System.out.print("Enter initial guess for parameter c: ");
 			float c = keyboard.nextFloat();
 			beta = new float[][] {{a}, {b}, {c}};
-			//triple = new NTuple(a, b, c);
 			
 			System.out.println("Beta = ");
 			BasicFunctions.print(beta);

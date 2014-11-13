@@ -25,18 +25,26 @@ public abstract class Base {
 				{5, 7, 2},
 		};
 		//qr_fact_givens(mat);
-		qr_fact_givens(mat2);
+		//qr_fact_givens(mat2);
+
 	}
 		
-		private Scanner keyboard = new Scanner(System.in);
+		private static Scanner keyboard = new Scanner(System.in);
 		
-		private ArrayList<NTuple> pairs = new ArrayList<NTuple>();
+		private static ArrayList<NTuple> pairs = new ArrayList<NTuple>();
 		//private NTuple triple;
-		private int N;
+		private static int N;
+		private static float[][] beta;
+		private static float[][] residuals;
+		private static float[][] jacobian;
 		
-		private float[][] beta;
-		private float[][] residuals;
-		private float[][] jacobian;
+		public static float[][] getResiduals() {
+			return residuals;
+		}
+		
+		public static float[][] getJacobian() {
+			return jacobian;
+		}
 	
 		/**
 		 * Initializes user input values
@@ -47,7 +55,7 @@ public abstract class Base {
 			String filePath = keyboard.nextLine();
 			//C:\Users\Jesse\Downloads\TestData.txt
 			try {
-				File file = new File(filePath);
+				File file = new File("C:\\Users\\Hannah\\Desktop\\test.txt");
 				FileReader reader = new FileReader(file);
 				BufferedReader bufferedReader = new BufferedReader(reader);
 				String inputLine;
@@ -241,4 +249,8 @@ public abstract class Base {
 	        ret.add(mat);
 			return ret;
 		}
+		
+		//protected float[][] guassNewton();
+		
+		
 }

@@ -83,4 +83,8 @@ public class gn_rat extends Base {
 		
 		return result;
 	}
+	
+	public float[][] guassNewton() {
+		return null;
+	}
 }

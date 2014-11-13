@@ -1,5 +1,9 @@
 package gaussnewton;
 
+import java.util.ArrayList;
+
+import basicfunctions.BasicFunctions;
+
 /**
  * Performs the modified Gauss-Newton method for a quadratic curve
  * 
@@ -14,6 +18,7 @@ public class gn_exp extends Base {
 	 */
 	public static void main(String[] args) {
 		gn_exp execute = new gn_exp();
+		guassNewton();
 	}
 	
 	/**
@@ -82,5 +87,23 @@ public class gn_exp extends Base {
 		float result = -1;
 		
 		return result;
+	}
+	
+	protected static float[][] guassNewton() {
+		float[][] J = Base.getJacobian();
+        float[][] r = Base.getResiduals();
+        
+        for (int i = 1; i <= 5; i++) {
+        	ArrayList<float[][]> qr = qr_fact_givens(J);
+        	float[][] Q = qr.get(0);
+        	float[][] R = qr.get(1);
+        	
+        	System.out.println("Q:");
+        	BasicFunctions.print(Q);
+        	System.out.println("R:");
+        	BasicFunctions.print(R);
+        }
+		
+		return null;
 	}
 }

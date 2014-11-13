@@ -83,4 +83,9 @@ public class gn_qua extends Base {
 		
 		return result;
 	}
+	
+	public float[][] guassNewton() {
+		return null;
+	}
+	
 }

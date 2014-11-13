@@ -98,10 +98,6 @@ public class gn_exp extends Base {
         	float[][] Q = qr.get(0);
         	float[][] R = qr.get(1);
         	
-        	System.out.println("Q:");
-        	BasicFunctions.print(Q);
-        	System.out.println("R:");
-        	BasicFunctions.print(R);
         }
 		
 		return null;

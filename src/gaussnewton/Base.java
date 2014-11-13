@@ -51,8 +51,8 @@ public abstract class Base {
 		 */
 		public void initialize() {
 			//Read data from file
-			System.out.print("Enter file path to data: ");
-			String filePath = keyboard.nextLine();
+			//System.out.print("Enter file path to data: ");
+			//String filePath = keyboard.nextLine();
 			//C:\Users\Jesse\Downloads\TestData.txt
 			try {
 				File file = new File("C:\\Users\\Hannah\\Desktop\\test.txt");

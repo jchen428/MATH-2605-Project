@@ -33,8 +33,8 @@ public class gn_rat extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float function(float a, float b, float c, float x) {
-		float result = ((a * x) / (x + b)) + c;
+	protected float function(float b1, float b2, float b3, float x) {
+		float result = ((b1 * x) / (x + b2)) + b3;
 		
 		return result;
 	}
@@ -48,8 +48,8 @@ public class gn_rat extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float drdB1(float a, float b, float c, float x) {
-		float result = -x / (x + b);
+	protected float drdB1(float b1, float b2, float b3, float x) {
+		float result = -x / (x + b2);
 		
 		return result;
 	}
@@ -63,8 +63,8 @@ public class gn_rat extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float drdB2(float a, float b, float c, float x) {
-		float result = (a * x) / (float) (Math.pow(x + b, 2));
+	protected float drdB2(float b1, float b2, float b3, float x) {
+		float result = (b1 * x) / (float) (Math.pow(x + b2, 2));
 		
 		return result;
 	}
@@ -78,7 +78,7 @@ public class gn_rat extends Base {
 	 * @param x Variable
 	 * @return result
 	 */
-	protected float drdB3(float a, float b, float c, float x) {
+	protected float drdB3(float b1, float b2, float b3, float x) {
 		float result = -1;
 		
 		return result;

@@ -38,4 +38,49 @@ public class gn_exp extends Base {
 		
 		return result;
 	}
+
+	/**
+	 * Calculates the partial derivative of r with respect to Beta1
+	 * 
+	 * @param a Beta1
+	 * @param b Beta2
+	 * @param c Beta3
+	 * @param x Variable
+	 * @return result
+	 */
+	protected float drdB1(float a, float b, float c, float x) {
+		float result = -(float) (Math.exp(b * x));
+		
+		return result;
+	}
+
+	/**
+	 * Calculates the partial derivative of r with respect to Beta2
+	 * 
+	 * @param a Beta1
+	 * @param b Beta2
+	 * @param c Beta3
+	 * @param x Variable
+	 * @return result
+	 */
+	protected float drdB2(float a, float b, float c, float x) {
+		float result = -x * (float) (Math.exp(b * x));
+		
+		return result;
+	}
+
+	/**
+	 * Calculates the partial derivative of r with respect to Beta3
+	 * 
+	 * @param a Beta1
+	 * @param b Beta2
+	 * @param c Beta3
+	 * @param x Variable
+	 * @return result
+	 */
+	protected float drdB3(float a, float b, float c, float x) {
+		float result = -1;
+		
+		return result;
+	}
 }

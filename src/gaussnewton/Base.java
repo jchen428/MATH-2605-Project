@@ -1,13 +1,10 @@
 package gaussnewton;
 
-import basicfunctions.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import basicfunctions.BasicFunctions;
@@ -34,7 +31,7 @@ public abstract class Base {
 		private Scanner keyboard = new Scanner(System.in);
 		
 		private ArrayList<NTuple> pairs = new ArrayList<NTuple>();
-		private NTuple triple;
+		//private NTuple triple;
 		private int N;
 		
 		private float[][] beta;
@@ -45,6 +42,7 @@ public abstract class Base {
 		 * Initializes user input values
 		 */
 		public void initialize() {
+			//Read data from file
 			System.out.print("Enter file path to data: ");
 			String filePath = keyboard.nextLine();
 			//C:\Users\Jesse\Downloads\TestData.txt
@@ -69,16 +67,20 @@ public abstract class Base {
 				System.out.println(pairs.get(i));
 			}
 			
+			//Define and construct initial Beta matrix
 			System.out.print("Enter initial guess for parameter a: ");
 			float a = keyboard.nextFloat();
 			System.out.print("Enter initial guess for parameter b: ");
 			float b = keyboard.nextFloat();
 			System.out.print("Enter initial guess for parameter c: ");
 			float c = keyboard.nextFloat();
-			triple = new NTuple(a, b, c);
+			beta = new float[][] {{a}, {b}, {c}};
+			//triple = new NTuple(a, b, c);
 			
-			System.out.println("beta = " + triple);
+			System.out.println("Beta = ");
+			BasicFunctions.print(beta);
 			
+			//Set number of iterations
 			System.out.print("Enter number of iterations: ");
 			N = keyboard.nextInt();
 		}
@@ -88,43 +90,84 @@ public abstract class Base {
 		 */
 		public void construct() {
 			int n = pairs.size();
-			beta = new float[][] {{triple.getX()}, {triple.getY()}, {triple.getZ()}};
+			//beta = new float[][] {{triple.getX()}, {triple.getY()}, {triple.getZ()}};
 			residuals = new float[n][1];
 			jacobian = new float[n][3];
+			float b1 = beta[0][0];
+			float b2 = beta[1][0];
+			float b3 = beta[2][0];
 			
+			//Construct residual matrix
 			for (int i = 0; i < n; i++) {
-				residuals[i][0] = pairs.get(i).getY() - function(triple.getX(), triple.getY(), triple.getZ(), pairs.get(i).getX());
+				residuals[i][0] = pairs.get(i).getY() - function(b1, b2, b3, pairs.get(i).getX());
 			}
 			
 			System.out.println("Number of iterations = " + N);
-			System.out.println(Arrays.deepToString(residuals));
 			
+			System.out.println("Residuals = ");
+			BasicFunctions.print(residuals);
+			
+			//Construct Jacobian matrix
 			for (int a = 0; a < n; a++) {
-				jacobian[a][0] = -(float) (Math.pow(pairs.get(a).getX(), 2));
+				jacobian[a][0] = drdB1(b1, b2, b3, pairs.get(a).getX());
 			}
 			for (int a = 0; a < n; a++) {
-				jacobian[a][1] = -pairs.get(a).getX();
+				jacobian[a][1] = drdB2(b1, b2, b3, pairs.get(a).getX());
 			}
 			for (int a = 0; a < n; a++) {
-				jacobian[a][2] = -1;
+				jacobian[a][2] = drdB3(b1, b2, b3, pairs.get(a).getX());
 			}
 			
-			System.out.println(Arrays.deepToString(jacobian));
+			System.out.println("Jacobian = ");
+			BasicFunctions.print(jacobian);
 		}
 		
 		/**
 		 * Applies parameters to a particular function of variable x
 		 * 
-		 * @param a First parameter
-		 * @param b Second parameter
-		 * @param c Third parameter
+		 * @param a Beta1
+		 * @param b Beta2
+		 * @param c Beta3
 		 * @param x Variable
 		 * @return result
 		 */
 		protected abstract float function(float a, float b, float c, float x);
 		
 		/**
-		 * Performs the QR-factorization of the jacobian matrix
+		 * Calculates the partial derivative of r with respect to Beta1
+		 * 
+		 * @param a Beta1
+		 * @param b Beta2
+		 * @param c Beta3
+		 * @param x Variable
+		 * @return result
+		 */
+		protected abstract float drdB1(float a, float b, float c, float x);
+		
+		/**
+		 * Calculates the partial derivative of r with respect to Beta2
+		 * 
+		 * @param a Beta1
+		 * @param b Beta2
+		 * @param c Beta3
+		 * @param x Variable
+		 * @return result
+		 */
+		protected abstract float drdB2(float a, float b, float c, float x);
+		
+		/**
+		 * Calculates the partial derivative of r with respect to Beta3
+		 * 
+		 * @param a Beta1
+		 * @param b Beta2
+		 * @param c Beta3
+		 * @param x Variable
+		 * @return result
+		 */
+		protected abstract float drdB3(float a, float b, float c, float x);
+		
+		/**
+		 * Performs the QR-factorization of the jacobian matrix using Householder reflections
 		 * 
 		 * @return An ArrayList of 2 floating point matrices, the first being Q and the second being R.
 		 */
@@ -141,22 +184,18 @@ public abstract class Base {
 			int m = mat.length;
 			int n = mat[0].length;
 			ArrayList<float[][]> ret = new ArrayList<>();
-			float[][] g = new float[m][m];
-			float[][] q = new float[m][m];
+			float[][] g = BasicFunctions.makeIdentity(m);
+			float[][] q = BasicFunctions.makeIdentity(m);
 					
-			//Make G an identity
-			for (int i = 0; i < m; i++){
+			//Make G and Q identity matrices
+			/*for (int i = 0; i < m; i++){
 	            for (int j = 0; j < m; j++){
 	                if (i == j){
 	                    g[i][j] = 1;
 	                    q[i][j] = 1;
 	                }
-	                else {
-	                    g[i][j] = 0;
-	                    q[i][j] = 0;
-	                }
 	            }
-	        }
+	        }*/
 			
 	        float x = mat[0][n-2];
 	        float y = mat[0][n-1];
@@ -165,26 +204,26 @@ public abstract class Base {
 	 
 	        //Iteration for givens rotations
 	        for (int i = 0; i < n; i++) {
-	                for (int j = (m - 1); j > i; j--) {
-	                    x = mat[j-1][i];
-	                    y = mat[j][i];   
-	                    cosX = (float) (x / (Math.sqrt( x * x + y * y)));
-	                    sinX = (float) (-y / (Math.sqrt(x * x + y * y)));
-	                    g[j][j] = cosX;
-	                    g[j][j-1] = sinX;
-	                    g[j-1][j] = -sinX;
-	                    g[j-1][j-1] = cosX;
-	                    mat = BasicFunctions.matrixMult(g, mat);
-	                    q = BasicFunctions.matrixMult(g, q); 
-	                    for (int k = 0; k < m; k++){
-	                        for (int l = 0; l < m; l++){
-	                            if (k == l)
-	                                g[k][l] = 1;
-	                            else
-	                                g[k][l] = 0;
-	                        }
-	                    }  
-	                }
+                for (int j = (m - 1); j > i; j--) {
+                    x = mat[j-1][i];
+                    y = mat[j][i];   
+                    cosX = (float) (x / (Math.sqrt( x * x + y * y)));
+                    sinX = (float) (-y / (Math.sqrt(x * x + y * y)));
+                    g[j][j] = cosX;
+                    g[j][j-1] = sinX;
+                    g[j-1][j] = -sinX;
+                    g[j-1][j-1] = cosX;
+                    mat = BasicFunctions.matrixMult(g, mat);
+                    q = BasicFunctions.matrixMult(g, q); 
+                    for (int k = 0; k < m; k++){
+                        for (int l = 0; l < m; l++){
+                            if (k == l)
+                                g[k][l] = 1;
+                            else
+                                g[k][l] = 0;
+                        }
+                    }  
+                }
 	        }
 	         
 	        q = BasicFunctions.transpose(q);

@@ -217,5 +217,24 @@ public class BasicFunctions {
 	    
 	    return sum;
 	}
-
+	
+	/**
+	 * Makes an n x n identity matrix
+	 * 
+	 * @param n Number of rows/columns
+	 * @return The identity matrix
+	 */
+	public static float[][] makeIdentity(int n) {
+		float[][] identity = new float[n][n];
+		
+		for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                if (i == j){
+                    identity[i][j] = 1;
+                }
+            }
+        }
+		
+		return identity;
+	}
 }

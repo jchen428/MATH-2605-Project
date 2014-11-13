@@ -185,8 +185,11 @@ public abstract class Base {
 			
 			BasicFunctions.print(v);
 			System.out.println(v[0][0] + BasicFunctions.norm(x));
+			float[][] asdf = {{1}, {0}, {0}};
+			BasicFunctions.print(BasicFunctions.scalarMult(asdf, BasicFunctions.norm(x)));
+			v = BasicFunctions.matrixAdd(v, BasicFunctions.scalarMult(asdf, BasicFunctions.norm(x)));
 			
-			v[0][0] += BasicFunctions.norm(x);
+			//v[0][0] += BasicFunctions.norm(x);
 			float[][] u = BasicFunctions.unitize(v);
 			
 			BasicFunctions.print(v);

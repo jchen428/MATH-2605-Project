@@ -12,19 +12,20 @@ import java.util.Scanner;
 public abstract class Base {
 	
 	public static void main(String[] args) {
-		float[][] mat = new float[][] {
-				{2, 6, 34},
-				{5, 7, 2},
-				{4, 45, 67},
-		};
-		float[][] mat2 = new float[][] {
-				{2, 6, 34},
-				{5, 7, 2},
-				{4, 45, 67},
-				{2, 6, 34},
-				{5, 7, 2},
-		};
-		qr_fact_givens(mat2);
+//		float[][] mat = new float[][] {
+//				{2, 6, 34},
+//				{5, 7, 2},
+//				{4, 45, 67},
+//		};
+//		float[][] mat2 = new float[][] {
+//				{2, 6, 34},
+//				{5, 7, 2},
+//				{4, 45, 67},
+//				{2, 6, 34},
+//				{5, 7, 2},
+//		};
+//		qr_fact_givens(mat);
+//		qr_fact_givens(mat2);
 	}
 		
 		private Scanner keyboard = new Scanner(System.in);

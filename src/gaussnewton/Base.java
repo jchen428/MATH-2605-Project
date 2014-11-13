@@ -24,7 +24,7 @@ public abstract class Base {
 				{2, 6, 34},
 				{5, 7, 2},
 		};
-		qr_fact_givens(mat);
+		//qr_fact_givens(mat);
 		qr_fact_givens(mat2);
 	}
 		
@@ -188,14 +188,14 @@ public abstract class Base {
 			float[][] q = BasicFunctions.makeIdentity(m);
 					
 			//Make G and Q identity matrices
-			/*for (int i = 0; i < m; i++){
+			for (int i = 0; i < m; i++){
 	            for (int j = 0; j < m; j++){
 	                if (i == j){
 	                    g[i][j] = 1;
 	                    q[i][j] = 1;
 	                }
 	            }
-	        }*/
+	        }
 			
 	        float x = mat[0][n-2];
 	        float y = mat[0][n-1];
@@ -227,24 +227,6 @@ public abstract class Base {
 	        }
 	         
 	        q = BasicFunctions.transpose(q);
-	        
-	        //Get rid of the padding zeroes
-	        if (m != n) {
-	        	float[][] newMat = new float[n][n];
-	        	for (int i = 0; i < n; i++) {
-	        		for (int j = 0; j < n; j++) {
-	        			newMat[i][j] = mat[i][j];
-	        		}
-	        	}
-	        	mat = newMat;
-	        	float[][] newQ = new float[m][n];
-	        	for (int i = 0; i < m; i++) {
-	        		for (int j = 0; j < n; j++) {
-	        			newQ[i][j] = q[i][j];
-	        		}
-	        	}
-	        	q = newQ;
-	        }
 	        
 	        //Print out Q, R, and QR to check that it equals the input
 	        System.out.println("Q:");

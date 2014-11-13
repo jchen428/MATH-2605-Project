@@ -1,5 +1,6 @@
 package gaussnewton;
 
+import basicfunctions.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,23 +10,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import basicfunctions.BasicFunctions;
+
 public abstract class Base {
 	
 	public static void main(String[] args) {
-//		float[][] mat = new float[][] {
-//				{2, 6, 34},
-//				{5, 7, 2},
-//				{4, 45, 67},
-//		};
-//		float[][] mat2 = new float[][] {
-//				{2, 6, 34},
-//				{5, 7, 2},
-//				{4, 45, 67},
-//				{2, 6, 34},
-//				{5, 7, 2},
-//		};
-//		qr_fact_givens(mat);
-//		qr_fact_givens(mat2);
+		float[][] mat = new float[][] {
+				{2, 6, 34},
+				{5, 7, 2},
+				{4, 45, 67},
+		};
+		float[][] mat2 = new float[][] {
+				{2, 6, 34},
+				{5, 7, 2},
+				{4, 45, 67},
+				{2, 6, 34},
+				{5, 7, 2},
+		};
+		qr_fact_givens(mat);
+		qr_fact_givens(mat2);
 	}
 		
 		private Scanner keyboard = new Scanner(System.in);
@@ -171,8 +174,8 @@ public abstract class Base {
 	                    g[j][j-1] = sinX;
 	                    g[j-1][j] = -sinX;
 	                    g[j-1][j-1] = cosX;
-	                    mat = matrixMult(g, mat);
-	                    q = matrixMult(g, q); 
+	                    mat = BasicFunctions.matrixMult(g, mat);
+	                    q = BasicFunctions.matrixMult(g, q); 
 	                    for (int k = 0; k < m; k++){
 	                        for (int l = 0; l < m; l++){
 	                            if (k == l)
@@ -184,7 +187,7 @@ public abstract class Base {
 	                }
 	        }
 	         
-	        q = transpose(q);
+	        q = BasicFunctions.transpose(q);
 	        
 	        //Get rid of the padding zeroes
 	        if (m != n) {
@@ -206,75 +209,15 @@ public abstract class Base {
 	        
 	        //Print out Q, R, and QR to check that it equals the input
 	        System.out.println("Q:");
-	        print(q);
+	        BasicFunctions.print(q);
 	        System.out.println("R:");
-	        print(mat);
+	        BasicFunctions.print(mat);
 	        System.out.println("QR:");
-	        print(matrixMult(q,mat));
+	        BasicFunctions.print(BasicFunctions.matrixMult(q,mat));
 	        
 	        //Add Q and R to the ArrayList to return
 	        ret.add(q);
 	        ret.add(mat);
 			return ret;
-		}
-		
-		/**
-		 * Multiplies to matrices in order given
-		 * @param a Left matrix
-		 * @param b Right Matrix
-		 * @return The resulting matrix
-		 */
-		public static float[][] matrixMult(float[][] a, float[][] b) {
-			if (a[0].length != b.length) {
-				return null;
-			}
-			
-			float[][] result = new float[a.length][b[0].length];
-			
-			for (int i = 0; i < a.length; i++) {
-				for (int j = 0; j < b[0].length; j++) {
-					for (int k = 0; k < b.length; k++) {
-						result[i][j] += a[i][k] * b[k][j];
-					}
-				}
-			}
-			
-			return result;
-		}
-		
-		
-		/**
-		 * A function to find the transpose of a matrix
-		 * 
-		 * @param mat
-		 * @return trans, the transpose of mat
-		 */
-		public static float[][] transpose(float[][] mat) {
-			float[][] trans = new float[mat[0].length][mat.length];
-			for (int i = 0; i < mat.length; i++) {
-				for (int j = 0; j < mat[0].length; j++) {
-					trans[j][i] = mat[i][j];
-				}
-			}
-			return trans;
-		}
-
-		
-		/**
-		 * A function to print a matrix
-		 * 
-		 * @param mat
-		 */
-		public static void print(float[][] mat) {
-			int m = mat.length;
-			int n = mat[0].length;
-			DecimalFormat df = new DecimalFormat("0.000");
-			for (int i = 0; i < m; i++) {
-				for (int j = 0; j < n; j++) {
-					System.out.print(df.format(mat[i][j]) + " " + "\t");
-				}
-				System.out.print("\n");
-			}
-			System.out.print("\n");
 		}
 }

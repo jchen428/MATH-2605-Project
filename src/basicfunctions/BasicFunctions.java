@@ -1,7 +1,5 @@
-/*import org.ojalgo.matrix.BasicMatrix;
-import org.ojalgo.matrix.BasicMatrix.Factory;
-import org.ojalgo.matrix.PrimitiveMatrix;
-import java.util.Arrays;*/
+package basicfunctions;
+
 import java.text.DecimalFormat;
 
 
@@ -34,11 +32,10 @@ public class BasicFunctions {
 		//System.out.println("\n" + Arrays.deepToString(matrixMult(a, b)));
 	}*/
 	
-	public static void print(double[][] a) {
-		DecimalFormat df = new DecimalFormat("0.00");
+	public static void print(float[][] a) {
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a[i].length; j++) {
-				System.out.print(a[i][j] + " " + "\t");
+				System.out.printf("%8.4f" + "\t", a[i][j]);
 			}
 			System.out.print("\n");
 		}
@@ -152,6 +149,22 @@ public class BasicFunctions {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * A function to find the transpose of a matrix
+	 * 
+	 * @param mat
+	 * @return trans the transpose of mat
+	 */
+	public static float[][] transpose(float[][] mat) {
+		float[][] trans = new float[mat[0].length][mat.length];
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				trans[j][i] = mat[i][j];
+			}
+		}
+		return trans;
 	}
 	
 	/**

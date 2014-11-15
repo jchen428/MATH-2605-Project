@@ -18,7 +18,7 @@ public class gn_exp extends Base {
 	 */
 	public static void main(String[] args) {
 		gn_exp execute = new gn_exp();
-		guassNewton();
+		//guassNewton();
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class gn_exp extends Base {
 	 * @return result
 	 */
 	protected float drdB2(float b1, float b2, float b3, float x) {
-		float result = -x * (float) (Math.exp(b2 * x));
+		float result = -b1 * x * (float) (Math.exp(b2 * x));
 		
 		return result;
 	}

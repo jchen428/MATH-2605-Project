@@ -1,14 +1,6 @@
 package basicfunctions;
 
 public class BasicFunctions {
-    //TO DO:
-    //import matrix/vector basic functions(java.math??)
-    //1. inverse of a matrix - Hannah
-    //2. QR factorization - Hannah
-    //3. determinant - Forrest
-    //4. trace - Forrest
-    //5. eigenvalues and eigenvectors - Jesse
-    //6. rotate, reflect, project vectors - Jesse
 	
 	public static void main(String[] args) {
 		float[][] a = new float[][] {
@@ -21,6 +13,12 @@ public class BasicFunctions {
 				{84, 3, 8, 90, 12},
 				{4, 89, 12, 68, 3}
 		};
+		float[][] c = new float[][] {
+				{2, 6, 34, 8},
+				{5, 7, 2, 6},
+				{4, 45, 67, 2},
+				{4, 45, 67, 2}
+		};
 		float[][] v = {{7}, {3}, {8}, {4}};
 		float s = 2;
 		
@@ -31,6 +29,8 @@ public class BasicFunctions {
 		//print(scalarMult(v, s));
 		//System.out.println(norm(v));
 		//print(unitize(v));
+		//print(trim(a, 1, 2, 2, 4));
+		//print(pad(c, 7));
 	}
 	
 	public static void print(float[][] a) {
@@ -157,15 +157,15 @@ public class BasicFunctions {
 	/**
 	 * Multiplies to matrices in order given
 	 * 
-	 * @param a Left matrix
-	 * @param b Right Matrix
+	 * @param left Left matrix
+	 * @param right Right Matrix
 	 * @return The resulting matrix
 	 */
-	public static float[][] matrixMult(float[][] a, float[][] b) {
-		int m = a.length;
-		int n = b[0].length;
+	public static float[][] matrixMult(float[][] left, float[][] right) {
+		int m = left.length;
+		int n = right[0].length;
 		
-		if (a[0].length != b.length) {
+		if (left[0].length != right.length) {
 			return null;
 		}
 		
@@ -173,8 +173,8 @@ public class BasicFunctions {
 		
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
-				for (int k = 0; k < b.length; k++) {
-					result[i][j] += a[i][k] * b[k][j];
+				for (int k = 0; k < right.length; k++) {
+					result[i][j] += left[i][k] * right[k][j];
 				}
 			}
 		}
@@ -190,13 +190,15 @@ public class BasicFunctions {
 	 * @return The resulting matrix
 	 */
 	public static float[][] scalarMult(float[][] mat, float s) {
-		for (int i = 0; i < mat.length; i++) {
-			for (int j = 0; j < mat[0].length; j++) {
-				mat[i][j] *= s;
+		float[][] result = mat;
+		
+		for (int i = 0; i < result.length; i++) {
+			for (int j = 0; j < result[0].length; j++) {
+				result[i][j] *= s;
 			}
 		}
 		
-		return mat;
+		return result;
 	}
 	
 	/**
@@ -234,21 +236,80 @@ public class BasicFunctions {
 			return null;
 		}
 		
-		int m = v.length;
-		float norm = norm(v);
+		float[][] u = v;
+		
+		int m = u.length;
+		float norm = norm(u);
 		
 		for (int i = 0; i < m; i++) {
-			v[i][0] /= norm;
+			u[i][0] /= norm;
 		}
 		
-		return v;
+		return u;
 	}
 	
 	/**
-	 * A function to find the transpose of a matrix
+	 * Trims a matrix to r1:r2 x c1:c2
 	 * 
-	 * @param mat
-	 * @return trans the transpose of mat
+	 * @param mat Matrix
+	 * @param r1 Rows lower bound
+	 * @param r2 Rows upper bound
+	 * @param c1 Columns lower bound
+	 * @param c2 Columns upper bound
+	 * @return The trimmed matrix
+	 */
+	public static float[][] trim(float[][] mat, int r1, int r2, int c1, int c2) {
+		if (r1 < 0 || r2 > mat.length - 1 || c1 < 0 || c2 > mat[0].length - 1) {
+			return null;
+		}
+		
+		float[][] trimmed = new float[r2 - r1 + 1][c2 - c1 + 1];
+		
+		for (int i = r1; i < r2 + 1; i++) {
+			for (int j = c1; j < c2 + 1; j++) {
+				trimmed[i - r1][j - c1] = mat[i][j];
+			}
+		}
+		
+		return trimmed;
+	}
+	
+	/**
+	 * Pads the upper-left corner of a square matrix with part of an identity matrix until k x k
+	 * 
+	 * @param mat Matrix
+	 * @param r Desired rows
+	 * @param c Desired columns
+	 * @return The padded matrix
+	 */
+	public static float[][] pad(float[][] mat, int k) {
+		if (mat.length != mat[0].length || mat.length > k) {
+			return null;
+		}
+		
+		int m = mat.length;
+		float[][] padded = new float[k][k];
+		
+		for (int i = 0; i < k; i++) {
+			for (int j = 0; j < k; j++) {
+				if ((i > k - m - 1) && (j > k - m - 1)) {
+					padded[i][j] = mat[m - (k - i - 1) - 1][m - (k - j - 1) - 1];
+				} else if (i == j) {
+					padded[i][j] = 1;
+				} else {
+					padded[i][j] = 0;
+				}
+			}
+		}
+		
+		return padded;
+	}
+	
+	/**
+	 * Finds the transpose of a matrix
+	 * 
+	 * @param mat Matrix
+	 * @return Transpose of mat
 	 */
 	public static float[][] transpose(float[][] mat) {
 		float[][] trans = new float[mat[0].length][mat.length];
@@ -261,10 +322,10 @@ public class BasicFunctions {
 	}
 	
 	/**
-	 * Gets the determinant
+	 * Calculates the determinant of a matrix
 	 * 
 	 * @param matrixA
-	 * @return
+	 * @return The determinant
 	 */
 	public static int determinant(float[][] matrixA) {
 	    int det = 0;
@@ -294,10 +355,10 @@ public class BasicFunctions {
 	}
 	
 	/**
-	 * Does the trace
+	 * Calculates the trace of a matrix
 	 * 
 	 * @param matrix
-	 * @return
+	 * @return The trace
 	 */
 	public static float trace(float[][] matrix) {
 	    if (matrix.length != matrix[0].length) {

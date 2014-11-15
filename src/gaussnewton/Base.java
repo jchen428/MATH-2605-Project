@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import basicfunctions.BasicFunctions;
@@ -55,7 +56,7 @@ public abstract class Base {
 			String filePath = keyboard.nextLine();
 			//C:\Users\Jesse\Downloads\TestData.txt
 			try {
-				File file = new File("C:\\Users\\Hannah\\Desktop\\test.txt");
+				File file = new File("C:\\Users\\Jesse\\Downloads\\TestData.txt");
 				FileReader reader = new FileReader(file);
 				BufferedReader bufferedReader = new BufferedReader(reader);
 				String inputLine;
@@ -179,35 +180,58 @@ public abstract class Base {
 		 * @return An ArrayList of 2 floating point matrices, the first being Q and the second being R.
 		 */
 		public static ArrayList<float[][]> qr_fact_househ(float[][] mat) {
-			int m = mat.length;
-			float[][] x = new float[m][1];
+			ArrayList<float[][]> H = new ArrayList<float[][]>();
+			float[][] x, v, u, I, b, h;
+			float[][] Q = BasicFunctions.makeIdentity(mat.length);
+			float[][] R = mat;
 			
-			for (int i = 0; i < mat.length; i++) {
-				x[i][0] = mat[i][0];
+			//Iterate for Householder reflections
+			for (int iteration = 0; iteration < mat[0].length - 1; iteration++) {
+				//Make current column
+				x = BasicFunctions.trim(R, iteration, R.length - 1, iteration, iteration);
+								
+				//v = x + ||x||e
+				v = x;
+				v[0][0] += BasicFunctions.norm(x);
+				
+				//Unitize v
+				u = BasicFunctions.unitize(v);
+				
+				//Make I (identity matrix)
+				I = BasicFunctions.makeIdentity(u.length);
+				
+				//b = -2 * u x u^T
+				b = BasicFunctions.scalarMult(BasicFunctions.matrixMult(u, BasicFunctions.transpose(u)), -2);
+				
+				//h = id + b (Householder reflection matrix)
+				h = BasicFunctions.matrixAdd(I, b);
+				h = BasicFunctions.pad(h, mat.length);
+				H.add(h);
+				
+				R = BasicFunctions.matrixMult(h, R);
 			}
 			
-			BasicFunctions.print(x);
-			System.out.println(BasicFunctions.norm(x));
-			
-			float[][] v = x;
-			
-			BasicFunctions.print(v);
-			System.out.println(v[0][0] + BasicFunctions.norm(x));
-			float[][] asdf = {{1}, {0}, {0}};
-			BasicFunctions.print(BasicFunctions.scalarMult(asdf, BasicFunctions.norm(x)));
-			v = BasicFunctions.matrixAdd(v, BasicFunctions.scalarMult(asdf, BasicFunctions.norm(x)));
-			
-			//v[0][0] += BasicFunctions.norm(x);
-			float[][] u = BasicFunctions.unitize(v);
-			
-			BasicFunctions.print(v);
-			BasicFunctions.print(u);
-			
-			for (int i = 0; i < m; i++) {
-				x[i][0] = mat[i][0];
+			//Calculate Q from all Householder reflection matrices
+			for (int i = 0; i < H.size(); i++) {
+				Q = BasicFunctions.matrixMult(Q, H.get(i));
 			}
 			
-			return null;
+			//Print results
+			System.out.println("A = ");
+			BasicFunctions.print(mat);
+			System.out.println("Q = ");
+			BasicFunctions.print(Q);
+			System.out.println("R = ");
+			BasicFunctions.print(R);
+			System.out.println("QR = ");
+			BasicFunctions.print(BasicFunctions.matrixMult(Q, R));
+			
+			//Format for return
+			ArrayList<float[][]> result = new ArrayList<float[][]>();
+			result.add(Q);
+			result.add(R);
+			
+			return result;
 		}
 		
 		/**
@@ -227,7 +251,7 @@ public abstract class Base {
 	        float cosX;
 	        float sinX;
 	 
-	        //Iteration for givens rotations
+	        //Iterate for Givens rotations
 	        for (int i = 0; i < n; i++) {
                 for (int j = (m - 1); j > i; j--) {
                     x = mat[j-1][i];

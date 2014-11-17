@@ -22,6 +22,7 @@ public class gn_log extends Base {
 	public gn_log() {
 		initialize();
 		construct();
+		chooseMethod();
 	}
 	
 	/**
@@ -84,7 +85,4 @@ public class gn_log extends Base {
 		return result;
 	}
 	
-	public float[][] guassNewton() {
-		return null;
-	}
 }

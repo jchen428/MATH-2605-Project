@@ -22,6 +22,7 @@ public class gn_qua extends Base {
 	public gn_qua() {
 		initialize();
 		construct();
+		chooseMethod();
 	}
 	
 	/**
@@ -82,10 +83,6 @@ public class gn_qua extends Base {
 		float result = -1;
 		
 		return result;
-	}
-	
-	public float[][] guassNewton() {
-		return null;
 	}
 	
 }

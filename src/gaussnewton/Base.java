@@ -40,13 +40,13 @@ public abstract class Base {
 	private static float[][] residuals;
 	private static float[][] jacobian;
 	
-	public static float[][] getResiduals() {
+	/*public static float[][] getResiduals() {
 		return residuals;
 	}
 	
 	public static float[][] getJacobian() {
 		return jacobian;
-	}
+	}*/
 
 	/**
 	 * Initializes user input values
@@ -131,6 +131,24 @@ public abstract class Base {
 		BasicFunctions.print(jacobian);
 	}
 	
+	public void chooseMethod() {
+		System.out.println("Choose to use Householders reflections or Givens rotations:");
+		System.out.println("1. Householders reflections");
+		System.out.println("2. Givens rotations");
+		/*int input = keyboard.nextInt();
+		
+		switch (input) {
+		case 1:		//do householders
+					break;
+		case 2: 	//do givens
+					break;
+		default:	System.out.println("Invalid selection");
+					break;
+		}*/
+		
+		gaussNewton(keyboard.nextInt());
+	}
+	
 	/**
 	 * Applies parameters to a particular function of variable x
 	 * 
@@ -187,10 +205,10 @@ public abstract class Base {
 		float[][] R = mat;
 		
 		//Iterate for Householder reflections
-		for (int iteration = 0; iteration < mat[0].length - 1; iteration++) {
+		for (int iteration = 0; iteration < mat[0].length; iteration++) {
 			//Make current column
 			x = BasicFunctions.trim(R, iteration, R.length - 1, iteration, iteration);
-							
+			
 			//v = x + ||x||e
 			v = x;
 			v[0][0] += BasicFunctions.norm(x);
@@ -217,20 +235,36 @@ public abstract class Base {
 			Q = BasicFunctions.matrixMult(Q, H.get(i));
 		}
 		
+		//Make Q n x 3 and R 3 x 3
+		float[][] QFinal = new float[Q.length][3];
+		float[][] RFinal = new float[3][3];
+		
+		for (int i = 0; i < Q.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				QFinal[i][j] = Q[i][j];
+			}
+		}
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				RFinal[i][j] = R[i][j];
+			}
+		}
+		
 		//Print results
 		System.out.println("A = ");
 		BasicFunctions.print(mat);
 		System.out.println("Q = ");
-		BasicFunctions.print(Q);
+		BasicFunctions.print(QFinal);
 		System.out.println("R = ");
-		BasicFunctions.print(R);
+		BasicFunctions.print(RFinal);
 		System.out.println("QR = ");
-		BasicFunctions.print(BasicFunctions.matrixMult(Q, R));
+		BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));
 		
 		//Format for return
 		ArrayList<float[][]> result = new ArrayList<float[][]>();
-		result.add(Q);
-		result.add(R);
+		result.add(QFinal);
+		result.add(RFinal);
 		
 		return result;
 	}
@@ -278,19 +312,55 @@ public abstract class Base {
          
         q = BasicFunctions.transpose(q);
         
+      //Make Q n x 3 and R 3 x 3
+      		float[][] QFinal = new float[q.length][3];
+      		float[][] RFinal = new float[3][3];
+      		
+      		for (int i = 0; i < q.length; i++) {
+      			for (int j = 0; j < 3; j++) {
+      				QFinal[i][j] = q[i][j];
+      			}
+      		}
+      		
+      		for (int i = 0; i < 3; i++) {
+      			for (int j = 0; j < 3; j++) {
+      				RFinal[i][j] = mat[i][j];
+      			}
+      		}
+        
         //Print out Q, R, and QR to check that it equals the input
         System.out.println("Q:");
-        BasicFunctions.print(q);
+        BasicFunctions.print(QFinal);
         System.out.println("R:");
-        BasicFunctions.print(mat);
+        BasicFunctions.print(RFinal);
         System.out.println("QR:");
-        BasicFunctions.print(BasicFunctions.matrixMult(q,mat));
+        BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));
         
         //Add Q and R to the ArrayList to return
-        ret.add(q);
-        ret.add(mat);
+        ret.add(QFinal);
+        ret.add(RFinal);
 		return ret;
 	}
 	
-	//protected float[][] guassNewton();
+	public float[][] gaussNewton(int i) {
+		ArrayList<float[][]> QR;
+		float[][] Q, R;
+		
+		if (i == 1) {
+			QR = qr_fact_househ(jacobian);
+		} else if (i == 2) {
+			QR = qr_fact_givens(jacobian);
+		} else {
+			System.out.println("Invalid input");
+			return null;
+		}
+		
+		Q = QR.get(0);
+		R = QR.get(1);
+		//beta = beta - R^-1 * Q^T * r
+		
+		
+		
+		return beta;
+	}
 }

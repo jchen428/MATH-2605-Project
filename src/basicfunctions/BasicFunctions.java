@@ -23,6 +23,12 @@ public class BasicFunctions {
 				{2, 4},
 				{3, 5}
 		};
+		float[][] e = new float[][] {
+				{2, 6, 34, 8},
+				{0, 7, 2, 6},
+				{0, 0, 67, 2},
+				{0, 0, 0, 2}
+		};
 		float[][] v = {{7}, {3}, {8}, {4}};
 		float s = 2;
 		
@@ -35,6 +41,7 @@ public class BasicFunctions {
 		//print(unitize(v));
 		//print(trim(a, 1, 2, 2, 4));
 		//print(pad(c, 7));
+		print(matrixMult(e, backSub(e, v)));
 	}
 	
 	public static void print(float[][] a) {
@@ -296,7 +303,12 @@ public class BasicFunctions {
 	    return sum;
 	}
 	
-	
+	/**
+	 * Calculates the inverse of a 2 x 2 matrix
+	 * 
+	 * @param mat Matrix
+	 * @return The inverse matrix
+	 */
 	public static float[][] inverseOf2x2(float[][] mat) {
 		float a = mat[0][0];
 		float b = mat[0][1];
@@ -333,5 +345,27 @@ public class BasicFunctions {
         }
 		
 		return identity;
+	}
+	
+	public static float[][] backSub(float[][] a, float[][] b) {
+		int n = a.length;
+		
+		if (n != a[0].length && b[0].length != 1) {
+			return null;
+		}
+		
+		float[][] x = new float[n][1];
+		
+		for (int i = n - 1; i >= 0; i--) {
+			x[i][0] = b[i][0];
+					
+			for (int j = i + 1; j < n; j++) {
+				x[i][0] -= a[i][j] * x[j][0];
+			}
+			
+			x[i][0] /= a[i][i];
+		}
+		
+		return x;
 	}
 }

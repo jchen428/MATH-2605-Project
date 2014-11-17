@@ -18,7 +18,6 @@ public class gn_exp extends Base {
 	 */
 	public static void main(String[] args) {
 		gn_exp execute = new gn_exp();
-		//guassNewton();
 	}
 	
 	/**
@@ -27,6 +26,7 @@ public class gn_exp extends Base {
 	public gn_exp() {
 		initialize();
 		construct();
+		chooseMethod();
 	}
 	
 	/**
@@ -89,17 +89,4 @@ public class gn_exp extends Base {
 		return result;
 	}
 	
-	protected static float[][] guassNewton() {
-		float[][] J = Base.getJacobian();
-        float[][] r = Base.getResiduals();
-        
-        for (int i = 1; i <= 5; i++) {
-        	ArrayList<float[][]> qr = qr_fact_givens(J);
-        	float[][] Q = qr.get(0);
-        	float[][] R = qr.get(1);
-        	
-        }
-		
-		return null;
-	}
 }

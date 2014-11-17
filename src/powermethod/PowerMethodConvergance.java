@@ -46,8 +46,8 @@ public class PowerMethodConvergance {
 	Random r = new Random();
 	int counter = 0;
 	float [][] matrix = new float[2][2];
-	for (int i = 0; i < 1; i++) {
-	    for (int j = 0; j < 1; j++) {
+	for (int i = 0; i < 2; i++) {
+	    for (int j = 0; j < 2; j++) {
 		float next = (r.nextFloat() * 4) - 2;
 		matrix[i][j] = next;
 	    }	
@@ -56,7 +56,7 @@ public class PowerMethodConvergance {
 	if (det == 0) {
 	    return null;
 	}
-	float[][] inverseMatrix = BasicFunctions.inverseOf2x2(matrix);
+    float[][] inverseMatrix = BasicFunctions.inverseOf2x2(matrix);
 	
 	float trace = BasicFunctions.trace(matrix);
 	float[] startingVector = new float[2];

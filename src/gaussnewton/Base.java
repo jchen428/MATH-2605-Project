@@ -5,14 +5,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import basicfunctions.BasicFunctions;
 
+/**
+ * Base class for the Gauss-Newton Method. Performs all required operations
+ * except those for the specified functions.
+ * 
+ * @author Jesse
+ */
 public abstract class Base {
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		float[][] mat = new float[][] {
 				{2, 6, 34},
 				{5, 7, 2},
@@ -28,25 +33,16 @@ public abstract class Base {
 		//qr_fact_givens(mat);
 		//qr_fact_givens(mat2);
 		//qr_fact_househ(mat);
-		qr_fact_househ(mat2);
-	}
+		//qr_fact_househ(mat2);
+	}*/
 		
 	private static Scanner keyboard = new Scanner(System.in);
 	
-	private static ArrayList<NTuple> pairs = new ArrayList<NTuple>();
-	//private NTuple triple;
+	private static ArrayList<Pair> pairs = new ArrayList<Pair>();
 	private static int N;
 	private static float[][] beta;
 	private static float[][] residuals;
 	private static float[][] jacobian;
-	
-	/*public static float[][] getResiduals() {
-		return residuals;
-	}
-	
-	public static float[][] getJacobian() {
-		return jacobian;
-	}*/
 
 	/**
 	 * Initializes user input values
@@ -64,7 +60,8 @@ public abstract class Base {
 			
 			while ((inputLine = bufferedReader.readLine()) != null) {
 				String[] data = inputLine.split(",");
-				NTuple pair = new NTuple(Float.valueOf(data[0]), Float.valueOf(data[1]));
+				Pair pair = new Pair(Float.valueOf(data[0]),
+						Float.valueOf(data[1]));
 				pairs.add(pair);
 			}
 			
@@ -99,7 +96,6 @@ public abstract class Base {
 	 */
 	public void construct() {
 		int n = pairs.size();
-		//beta = new float[][] {{triple.getX()}, {triple.getY()}, {triple.getZ()}};
 		residuals = new float[n][1];
 		jacobian = new float[n][3];
 		float b1 = beta[0][0];
@@ -108,7 +104,8 @@ public abstract class Base {
 		
 		//Construct residual matrix
 		for (int i = 0; i < n; i++) {
-			residuals[i][0] = pairs.get(i).getY() - function(b1, b2, b3, pairs.get(i).getX());
+			residuals[i][0] = pairs.get(i).getY() - function(b1, b2, b3,
+					pairs.get(i).getX());
 		}
 		
 		System.out.println("Number of iterations = " + N);
@@ -135,7 +132,8 @@ public abstract class Base {
 	 * Asks user whether to use Householders reflections or Givens rotations
 	 */
 	public void chooseMethod() {
-		System.out.println("Choose to use Householders reflections or Givens rotations:");
+		System.out.println("Choose to use Householders reflections or Givens "
+				+ "rotations:");
 		System.out.println("1. Householders reflections");
 		System.out.println("2. Givens rotations");
 
@@ -187,9 +185,11 @@ public abstract class Base {
 	protected abstract float drdB3(float b1, float b2, float b3, float x);
 	
 	/**
-	 * Performs the QR-factorization of the jacobian matrix using Householder reflections
+	 * Performs the QR-factorization of the jacobian matrix using Householder
+	 * reflections
 	 * 
-	 * @return An ArrayList of 2 floating point matrices, the first being Q and the second being R.
+	 * @return An ArrayList of 2 floating point matrices, the first being Q and
+	 * the second being R.
 	 */
 	public static ArrayList<float[][]> qr_fact_househ(float[][] mat) {
 		ArrayList<float[][]> H = new ArrayList<float[][]>();
@@ -200,7 +200,8 @@ public abstract class Base {
 		//Iterate for Householder reflections
 		for (int iteration = 0; iteration < mat[0].length; iteration++) {
 			//Make current column
-			x = BasicFunctions.trim(R, iteration, R.length - 1, iteration, iteration);
+			x = BasicFunctions.trim(R, iteration, R.length - 1, iteration,
+					iteration);
 			
 			//v = x + ||x||e
 			v = x;
@@ -213,7 +214,8 @@ public abstract class Base {
 			I = BasicFunctions.makeIdentity(u.length);
 			
 			//b = -2 * u x u^T
-			b = BasicFunctions.scalarMult(BasicFunctions.matrixMult(u, BasicFunctions.transpose(u)), -2);
+			b = BasicFunctions.scalarMult(BasicFunctions.matrixMult(u,
+					BasicFunctions.transpose(u)), -2);
 			
 			//h = id + b (Householder reflection matrix)
 			h = BasicFunctions.matrixAdd(I, b);
@@ -264,9 +266,11 @@ public abstract class Base {
 	}
 	
 	/**
-	 * Performs the QR-factorization of the jacobian matrix using Givens rotations
+	 * Performs the QR-factorization of the jacobian matrix using Givens
+	 * rotations
 	 * 
-	 * @return An ArrayList of 2 floating point matrices, the first being Q and the second being R.
+	 * @return An ArrayList of 2 floating point matrices, the first being Q and
+	 * the second being R.
 	 */
 	public static ArrayList<float[][]> qr_fact_givens(float[][] mat) {
 		int m = mat.length;
@@ -359,11 +363,13 @@ public abstract class Base {
 			R = QR.get(1);
 			
 			//b = Q^T * r
-			float[][] b = BasicFunctions.matrixMult(BasicFunctions.transpose(Q), residuals);
+			float[][] b = BasicFunctions.matrixMult(BasicFunctions.transpose(Q),
+					residuals);
 			//Solve R * x = Q^T * r by back substitution
 			x = BasicFunctions.backSub(R, b);
 			//beta = beta - x
-			beta = BasicFunctions.matrixAdd(beta, BasicFunctions.scalarMult(x, -1));
+			beta = BasicFunctions.matrixAdd(beta, BasicFunctions.scalarMult(x,
+					-1));
 			
 			//Get beta values
 			float b1 = beta[0][0];
@@ -372,7 +378,8 @@ public abstract class Base {
 		
 			//Recalculate residuals vector
 			for (int i = 0; i < n; i++) {
-				residuals[i][0] = pairs.get(i).getY() - function(b1, b2, b3, pairs.get(i).getX());
+				residuals[i][0] = pairs.get(i).getY() - function(b1, b2, b3,
+						pairs.get(i).getX());
 			}
 			
 			//Recalculate Jacobian matrix
@@ -389,4 +396,5 @@ public abstract class Base {
 		
 		return beta;
 	}
+	
 }

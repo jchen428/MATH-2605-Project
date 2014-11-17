@@ -1,5 +1,9 @@
 package basicfunctions;
 
+/**
+ * Contains all basic vector and matrix operations required by project
+ * @author Jesse
+ */
 public class BasicFunctions {
 	
 	public static void main(String[] args) {
@@ -41,9 +45,14 @@ public class BasicFunctions {
 		//print(unitize(v));
 		//print(trim(a, 1, 2, 2, 4));
 		//print(pad(c, 7));
-		print(matrixMult(e, backSub(e, v)));
+		//print(matrixMult(e, backSub(e, v)));
 	}
 	
+	/**
+	 * Prints a matrix
+	 * 
+	 * @param a Matrix
+	 */
 	public static void print(float[][] a) {
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a[i].length; j++) {
@@ -66,7 +75,7 @@ public class BasicFunctions {
 		int n = a[0].length;
 		
 		if (m != b.length && n != b[0].length) {
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
 		float[][] result = new float[a.length][a[0].length];
@@ -92,7 +101,7 @@ public class BasicFunctions {
 		int n = right[0].length;
 		
 		if (left[0].length != right.length) {
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
 		float[][] result = new float[m][n];
@@ -135,7 +144,7 @@ public class BasicFunctions {
 	 */
 	public static Float norm(float[][] v) {
 		if (v[0].length != 1) {
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
 		int m = v.length;
@@ -159,7 +168,7 @@ public class BasicFunctions {
 	 */
 	public static float[][] unitize(float[][] v) {
 		if (v[0].length != 1) {
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
 		float[][] u = v;
@@ -186,7 +195,7 @@ public class BasicFunctions {
 	 */
 	public static float[][] trim(float[][] mat, int r1, int r2, int c1, int c2) {
 		if (r1 < 0 || r2 > mat.length - 1 || c1 < 0 || c2 > mat[0].length - 1) {
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
 		float[][] trimmed = new float[r2 - r1 + 1][c2 - c1 + 1];
@@ -201,7 +210,8 @@ public class BasicFunctions {
 	}
 	
 	/**
-	 * Pads the upper-left corner of a square matrix with part of an identity matrix until k x k
+	 * Pads the upper-left corner of a square matrix with part of an identity
+	 * matrix until k x k
 	 * 
 	 * @param mat Matrix
 	 * @param r Desired rows
@@ -210,7 +220,7 @@ public class BasicFunctions {
 	 */
 	public static float[][] pad(float[][] mat, int k) {
 		if (mat.length != mat[0].length || mat.length > k) {
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
 		int m = mat.length;
@@ -219,7 +229,7 @@ public class BasicFunctions {
 		for (int i = 0; i < k; i++) {
 			for (int j = 0; j < k; j++) {
 				if ((i > k - m - 1) && (j > k - m - 1)) {
-					padded[i][j] = mat[m - (k - i - 1) - 1][m - (k - j - 1) - 1];
+					padded[i][j] = mat[m - (k - i )][m - (k - j)];
 				} else if (i == j) {
 					padded[i][j] = 1;
 				} else {
@@ -239,6 +249,7 @@ public class BasicFunctions {
 	 */
 	public static float[][] transpose(float[][] mat) {
 		float[][] trans = new float[mat[0].length][mat.length];
+		
 		for (int i = 0; i < mat.length; i++) {
 			for (int j = 0; j < mat[0].length; j++) {
 				trans[j][i] = mat[i][j];
@@ -255,31 +266,37 @@ public class BasicFunctions {
 	 */
 	public static float determinant(float[][] matrixA) {
 	    if (matrixA.length == 2 && matrixA[0].length == 2) {
-		return (float) (matrixA[0][0] * matrixA[1][1]) - (matrixA[1][0] * matrixA[0][1]);
+			return (float) (matrixA[0][0] * matrixA[1][1]) - (matrixA[1][0] *
+					matrixA[0][1]);
 	    }
+	    
 	    float det = 0;
 	    float sign = 1;
 	    int i = matrixA.length;
 	    int j = matrixA[0].length;
 	    
 	    for (int l = 0; l < i; l++) {
-		float[][] innerMatrix = new float[i-1][j-1];
-		for (int m = 1; m < i; m++) {
-		    for(int n = 0; n < i; n++) {
-			if(n < i) {
-				System.out.println(m);
-				System.out.println(n);
-			    innerMatrix[m-1][n] = matrixA[m][n];
-			}   else {
-			    innerMatrix[m-1][n-1] = matrixA[m][n];
+			float[][] innerMatrix = new float[i-1][j-1];
+			
+			for (int m = 1; m < i; m++) {
+			    for(int n = 0; n < i; n++) {
+					if(n < i) {
+						System.out.println(m);
+						System.out.println(n);
+					    innerMatrix[m-1][n] = matrixA[m][n];
+					} else {
+					    innerMatrix[m-1][n-1] = matrixA[m][n];
+					}
+			    }
 			}
-		    }
-		}
-		if (l % 2 == 1) {
-		    sign = -1;
-		}
-		det = (float) (sign * matrixA[0][l]*(determinant(innerMatrix)));
+			
+			if (l % 2 == 1) {
+			    sign = -1;
+			}
+			
+			det = (float) (sign * matrixA[0][l]*(determinant(innerMatrix)));
 	    }
+	    
 	    return det;
 	}
 	
@@ -358,7 +375,7 @@ public class BasicFunctions {
 		int n = A.length;
 		
 		if (n != A[0].length && b[0].length != 1) {
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
 		float[][] x = new float[n][1];
@@ -375,4 +392,5 @@ public class BasicFunctions {
 		
 		return x;
 	}
+	
 }

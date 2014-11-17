@@ -1,6 +1,8 @@
 package powermethod;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ValueAxis;
 
@@ -16,6 +18,8 @@ import org.jfree.chart.renderer.PolarItemRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
+import com.sun.javafx.geom.Rectangle;
 
 public class PowerMethodMain {
 	
@@ -39,12 +43,14 @@ public class PowerMethodMain {
 
 		
 		XYDataset dataset = createDataset(determinants, traces);
-		JFreeChart chart = ChartFactory.createScatterPlot("Scatter Plot","Year","Paddy Production", dataset);		
+		JFreeChart chart = ChartFactory.createScatterPlot("Scatter Plot","Year","Paddy Production", dataset);
+		chart.draw();
+		
 	}
 	
 	//Plot number 1
 			// X axis is determinants, Y axis is traces
-			
+	
 	public static XYDataset createDataset(ArrayList det, ArrayList traces) {
 	        XYSeriesCollection result = new XYSeriesCollection();
 	        XYSeries series = new XYSeries("Plot 1");

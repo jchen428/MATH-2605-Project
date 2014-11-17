@@ -246,30 +246,31 @@ public class BasicFunctions {
 	 * @param matrixA
 	 * @return The determinant
 	 */
-	public static int determinant(float[][] matrixA) {
+	public static float determinant(float[][] matrixA) {
+	    if (matrixA.length == 1 && matrixA[0].length == 1) {
+		return (float) matrixA[0][0];
+	    }
 	    int det = 0;
 	    int sign = 1;
 	    int i = matrixA.length;
 	    int j = matrixA[0].length;
 	    
 	    for (int l = 0; l < i; l++) {
-			float[][] innerMatrix = new float[i-1][j-1];
-			
-			for (int m = 1; m < i; m++) {
-			    for(int n = 0; n < i; n++) {
-					if(n < i) {
-					    innerMatrix[m-1][n] = matrixA[m][n];
-					}   else {
-					    innerMatrix[m-1][n-1] = matrixA[m][n];
-					}
-			    }
+		float[][] innerMatrix = new float[i-1][j-1];
+		for (int m = 1; m < i; m++) {
+		    for(int n = 0; n < i; n++) {
+			if(n < i) {
+			    innerMatrix[m-1][n] = matrixA[m][n];
+			}   else {
+			    innerMatrix[m-1][n-1] = matrixA[m][n];
 			}
-			if (l % 2 == 1) {
-			    sign = -1;
-			}
-			det = (int) (sign * matrixA[0][l]*(determinant(innerMatrix)));
+		    }
+		}
+		if (l % 2 == 1) {
+		    sign = -1;
+		}
+		det = (float) (sign * matrixA[0][l]*(determinant(innerMatrix)));
 	    }
-	    
 	    return det;
 	}
 	

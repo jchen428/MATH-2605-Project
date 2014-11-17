@@ -1,9 +1,5 @@
 package gaussnewton;
 
-import java.util.ArrayList;
-
-import basicfunctions.BasicFunctions;
-
 /**
  * Performs the modified Gauss-Newton method for a quadratic curve
  * 

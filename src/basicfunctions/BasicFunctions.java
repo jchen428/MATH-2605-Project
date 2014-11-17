@@ -347,10 +347,17 @@ public class BasicFunctions {
 		return identity;
 	}
 	
-	public static float[][] backSub(float[][] a, float[][] b) {
-		int n = a.length;
+	/**
+	 * Solves Ax = b by back substitution
+	 * 
+	 * @param A Coefficient matrix, must be upper triangular
+	 * @param b Constant matrix
+	 * @return The solution x of Ax = b
+	 */
+	public static float[][] backSub(float[][] A, float[][] b) {
+		int n = A.length;
 		
-		if (n != a[0].length && b[0].length != 1) {
+		if (n != A[0].length && b[0].length != 1) {
 			return null;
 		}
 		
@@ -360,10 +367,10 @@ public class BasicFunctions {
 			x[i][0] = b[i][0];
 					
 			for (int j = i + 1; j < n; j++) {
-				x[i][0] -= a[i][j] * x[j][0];
+				x[i][0] -= A[i][j] * x[j][0];
 			}
 			
-			x[i][0] /= a[i][i];
+			x[i][0] /= A[i][i];
 		}
 		
 		return x;

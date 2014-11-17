@@ -57,7 +57,7 @@ public abstract class Base {
 		String filePath = keyboard.nextLine();
 		//C:\Users\Jesse\Downloads\TestData.txt
 		try {
-			File file = new File("C:\\Users\\Jesse\\Downloads\\TestData.txt");
+			File file = new File(filePath);
 			FileReader reader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			String inputLine;
@@ -117,36 +117,29 @@ public abstract class Base {
 		BasicFunctions.print(residuals);
 		
 		//Construct Jacobian matrix
-		for (int a = 0; a < n; a++) {
-			jacobian[a][0] = drdB1(b1, b2, b3, pairs.get(a).getX());
+		for (int i = 0; i < n; i++) {
+			jacobian[i][0] = drdB1(b1, b2, b3, pairs.get(i).getX());
 		}
-		for (int a = 0; a < n; a++) {
-			jacobian[a][1] = drdB2(b1, b2, b3, pairs.get(a).getX());
+		for (int i = 0; i < n; i++) {
+			jacobian[i][1] = drdB2(b1, b2, b3, pairs.get(i).getX());
 		}
-		for (int a = 0; a < n; a++) {
-			jacobian[a][2] = drdB3(b1, b2, b3, pairs.get(a).getX());
+		for (int i = 0; i < n; i++) {
+			jacobian[i][2] = drdB3(b1, b2, b3, pairs.get(i).getX());
 		}
 		
 		System.out.println("Jacobian = ");
 		BasicFunctions.print(jacobian);
 	}
 	
+	/**
+	 * Asks user whether to use Householders reflections or Givens rotations
+	 */
 	public void chooseMethod() {
 		System.out.println("Choose to use Householders reflections or Givens rotations:");
 		System.out.println("1. Householders reflections");
 		System.out.println("2. Givens rotations");
-		/*int input = keyboard.nextInt();
-		
-		switch (input) {
-		case 1:		//do householders
-					break;
-		case 2: 	//do givens
-					break;
-		default:	System.out.println("Invalid selection");
-					break;
-		}*/
-		
-		gaussNewton(keyboard.nextInt());
+
+		BasicFunctions.print(gaussNewton(keyboard.nextInt()));
 	}
 	
 	/**
@@ -245,13 +238,14 @@ public abstract class Base {
 			}
 		}
 		
+		//Remove rows of zeroes
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				RFinal[i][j] = R[i][j];
 			}
 		}
 		
-		//Print results
+		/*//Print results
 		System.out.println("A = ");
 		BasicFunctions.print(mat);
 		System.out.println("Q = ");
@@ -259,7 +253,7 @@ public abstract class Base {
 		System.out.println("R = ");
 		BasicFunctions.print(RFinal);
 		System.out.println("QR = ");
-		BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));
+		BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));*/
 		
 		//Format for return
 		ArrayList<float[][]> result = new ArrayList<float[][]>();
@@ -312,29 +306,30 @@ public abstract class Base {
          
         q = BasicFunctions.transpose(q);
         
-      //Make Q n x 3 and R 3 x 3
-      		float[][] QFinal = new float[q.length][3];
-      		float[][] RFinal = new float[3][3];
-      		
-      		for (int i = 0; i < q.length; i++) {
-      			for (int j = 0; j < 3; j++) {
-      				QFinal[i][j] = q[i][j];
-      			}
-      		}
-      		
-      		for (int i = 0; i < 3; i++) {
-      			for (int j = 0; j < 3; j++) {
-      				RFinal[i][j] = mat[i][j];
-      			}
-      		}
+        //Make Q n x 3 and R 3 x 3
+  		float[][] QFinal = new float[q.length][3];
+  		float[][] RFinal = new float[3][3];
+  		
+  		for (int i = 0; i < q.length; i++) {
+  			for (int j = 0; j < 3; j++) {
+  				QFinal[i][j] = q[i][j];
+  			}
+  		}
+  		
+  		//Remove rows of zeroes
+  		for (int i = 0; i < 3; i++) {
+  			for (int j = 0; j < 3; j++) {
+  				RFinal[i][j] = mat[i][j];
+  			}
+  		}
         
-        //Print out Q, R, and QR to check that it equals the input
+        /*//Print out Q, R, and QR to check that it equals the input
         System.out.println("Q:");
         BasicFunctions.print(QFinal);
         System.out.println("R:");
         BasicFunctions.print(RFinal);
         System.out.println("QR:");
-        BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));
+        BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));*/
         
         //Add Q and R to the ArrayList to return
         ret.add(QFinal);
@@ -342,24 +337,55 @@ public abstract class Base {
 		return ret;
 	}
 	
-	public float[][] gaussNewton(int i) {
+	public float[][] gaussNewton(int in) {
 		ArrayList<float[][]> QR;
-		float[][] Q, R;
+		int n = pairs.size();
+		float[][] Q, R, x;
 		
-		if (i == 1) {
+		//Determine whether to use Householders reflections or Givens rotations
+		if (in == 1) {
 			QR = qr_fact_househ(jacobian);
-		} else if (i == 2) {
+		} else if (in == 2) {
 			QR = qr_fact_givens(jacobian);
 		} else {
 			System.out.println("Invalid input");
 			return null;
 		}
 		
-		Q = QR.get(0);
-		R = QR.get(1);
-		//beta = beta - R^-1 * Q^T * r
+		//Iterate N times
+		for (int it = 0; it < N; it++) {
+			//Set Q and R
+			Q = QR.get(0);
+			R = QR.get(1);
+			
+			//b = Q^T * r
+			float[][] b = BasicFunctions.matrixMult(BasicFunctions.transpose(Q), residuals);
+			//Solve R * x = Q^T * r by back substitution
+			x = BasicFunctions.backSub(R, b);
+			//beta = beta - x
+			beta = BasicFunctions.matrixAdd(beta, BasicFunctions.scalarMult(x, -1));
+			
+			//Get beta values
+			float b1 = beta[0][0];
+			float b2 = beta[1][0];
+			float b3 = beta[2][0];
 		
-		
+			//Recalculate residuals vector
+			for (int i = 0; i < n; i++) {
+				residuals[i][0] = pairs.get(i).getY() - function(b1, b2, b3, pairs.get(i).getX());
+			}
+			
+			//Recalculate Jacobian matrix
+			for (int i = 0; i < n; i++) {
+				jacobian[i][0] = drdB1(b1, b2, b3, pairs.get(i).getX());
+			}
+			for (int i = 0; i < n; i++) {
+				jacobian[i][1] = drdB2(b1, b2, b3, pairs.get(i).getX());
+			}
+			for (int i = 0; i < n; i++) {
+				jacobian[i][2] = drdB3(b1, b2, b3, pairs.get(i).getX());
+			}
+		}
 		
 		return beta;
 	}

@@ -19,6 +19,10 @@ public class BasicFunctions {
 				{4, 45, 67, 2},
 				{4, 45, 67, 2}
 		};
+		float[][] d = new float[][] {
+				{2, 4},
+				{3, 5}
+		};
 		float[][] v = {{7}, {3}, {8}, {4}};
 		float s = 2;
 		
@@ -287,6 +291,25 @@ public class BasicFunctions {
 	    }
 	    
 	    return sum;
+	}
+	
+	
+	public static float[][] inverseOf2x2(float[][] mat) {
+		float a = mat[0][0];
+		float b = mat[0][1];
+		float c = mat[1][0];
+		float d = mat[1][1];
+		
+		float det = (a*d) - (b*c);
+		
+		float[][] ret = new float[2][2];
+		
+		ret[0][0] = d/det;
+		ret[0][1] = -b/det;
+		ret[1][0] = -c/det;
+		ret[1][1] = a/det;
+		
+		return ret;
 	}
 	
 	/**

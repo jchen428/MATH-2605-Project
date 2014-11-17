@@ -69,7 +69,7 @@ public class PowerMethodConvergance {
 	}
 	int numberOfIterations = (int) data.get(2);
 	ArrayList data2 = powerMethod(inverseMatrix, startingVector, (float) 0.00005, 100);
-	if (data == null) {
+	if (data2 == null) {
 	    return null;
 	}
 	int inverseNumberOfIterations = (int) data2.get(2);

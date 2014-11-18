@@ -6,6 +6,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ValueAxis;
 
+import javax.swing.JPanel; 
+
 import org.jfree.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -23,6 +25,7 @@ import com.sun.javafx.geom.Rectangle;
 
 public class PowerMethodMain {
 	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		
 		int counter = 0;
@@ -40,11 +43,11 @@ public class PowerMethodMain {
 				counter++;
 			}
 		}
-
 		
 		XYDataset dataset = createDataset(determinants, traces);
 		JFreeChart chart = ChartFactory.createScatterPlot("Scatter Plot","Year","Paddy Production", dataset);
-		chart.draw();
+		ChartPanel cp = new ChartPanel(chart);
+		cp.show();
 		
 	}
 	

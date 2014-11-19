@@ -1,27 +1,14 @@
 package powermethod;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
-
-import javafx.geometry.Rectangle2D;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ValueAxis;
 
 import javax.swing.JPanel; 
 
-import org.jfree.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.PolarPlot;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.DefaultPolarItemRenderer;
-import org.jfree.chart.renderer.PolarItemRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import com.sun.javafx.geom.Rectangle;
 
 public class PowerMethodMain {
 	

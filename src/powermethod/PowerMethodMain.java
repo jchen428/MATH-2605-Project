@@ -1,22 +1,15 @@
 package powermethod;
 import java.util.ArrayList;
 
-import javafx.geometry.Rectangle2D;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel; 
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYDotRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.util.ShapeUtilities;
-
 import java.awt.Shape;
 
 import java.awt.Color;
@@ -24,8 +17,7 @@ import java.awt.Paint;
 import java.awt.geom.Ellipse2D;
 
 public class PowerMethodMain {
-	
-	@SuppressWarnings("deprecation")
+
 	public static void main(String[] args) {
 		
 		int counter = 0;

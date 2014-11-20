@@ -17,7 +17,7 @@ import basicfunctions.BasicFunctions;
  */
 public abstract class Base {
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		float[][] mat = new float[][] {
 				{2, 6, 34},
 				{5, 7, 2},
@@ -32,9 +32,9 @@ public abstract class Base {
 		};
 		//qr_fact_givens(mat);
 		//qr_fact_givens(mat2);
-		//qr_fact_househ(mat);
+		qr_fact_househ(mat);
 		//qr_fact_househ(mat2);
-	}*/
+	}
 		
 	private static Scanner keyboard = new Scanner(System.in);
 	
@@ -188,8 +188,8 @@ public abstract class Base {
 	 * Performs the QR-factorization of the jacobian matrix using Householder
 	 * reflections
 	 * 
-	 * @return An ArrayList of 2 floating point matrices, the first being Q and
-	 * the second being R.
+	 * @return An ArrayList of 2 floating point matrices, the first being Q, the
+	 * second being R, and the third being QR.
 	 */
 	public static ArrayList<float[][]> qr_fact_househ(float[][] mat) {
 		ArrayList<float[][]> H = new ArrayList<float[][]>();
@@ -247,6 +247,8 @@ public abstract class Base {
 			}
 		}
 		
+		float[][] QR = BasicFunctions.matrixMult(QFinal, RFinal);
+		
 		/*//Print results
 		System.out.println("A = ");
 		BasicFunctions.print(mat);
@@ -255,12 +257,13 @@ public abstract class Base {
 		System.out.println("R = ");
 		BasicFunctions.print(RFinal);
 		System.out.println("QR = ");
-		BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));*/
+		BasicFunctions.print(QR);*/
 		
 		//Format for return
 		ArrayList<float[][]> result = new ArrayList<float[][]>();
 		result.add(QFinal);
 		result.add(RFinal);
+		result.add(QR);
 		
 		return result;
 	}
@@ -269,8 +272,8 @@ public abstract class Base {
 	 * Performs the QR-factorization of the jacobian matrix using Givens
 	 * rotations
 	 * 
-	 * @return An ArrayList of 2 floating point matrices, the first being Q and
-	 * the second being R.
+	 * @return An ArrayList of 2 floating point matrices, the first being Q, the
+	 * second being R, and the third being QR.
 	 */
 	public static ArrayList<float[][]> qr_fact_givens(float[][] mat) {
 		int m = mat.length;
@@ -326,6 +329,8 @@ public abstract class Base {
   				RFinal[i][j] = mat[i][j];
   			}
   		}
+  		
+  		float[][] QR = BasicFunctions.matrixMult(QFinal, RFinal);
         
         /*//Print out Q, R, and QR to check that it equals the input
         System.out.println("Q:");
@@ -338,6 +343,8 @@ public abstract class Base {
         //Add Q and R to the ArrayList to return
         ret.add(QFinal);
         ret.add(RFinal);
+        ret.add(QR);
+        
 		return ret;
 	}
 	

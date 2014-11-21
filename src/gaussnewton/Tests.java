@@ -16,7 +16,8 @@ import basicfunctions.BasicFunctions;
 public class Tests extends Base {
 
 	private float[][] matrix;
-	private ArrayList<float[][]> result;
+	private ArrayList<float[][]> householders;
+	private ArrayList<float[][]> givens;
 	
 	/**
 	 * Makes a random m x n matrix up to 100 x 100 with random values up to 100
@@ -24,8 +25,9 @@ public class Tests extends Base {
 	 * @return The random matrix
 	 */
 	private static float[][] makeRandomMatrix() {
-		int m = (int) (Math.random() * 100);
-		int n = (int) (Math.random() * 100);
+		int m = 3 + (int) (Math.random() * 97);
+		int n = 3 + (int) (Math.random() * 97);
+		
 		float[][] mat = new float[m][n];
 		
 		for (int i = 0; i < m; i ++) {
@@ -40,22 +42,30 @@ public class Tests extends Base {
 	@Before
 	public void setup() {
 		matrix = makeRandomMatrix();
-		result = qr_fact_househ(matrix);
-		
-		System.out.println(matrix[0].length + " = " + result.get(2)[0].length);
+		householders = qr_fact_househ(matrix);
+		givens = qr_fact_givens(matrix);
 	}
 	
 	@Test
-	public void testQR() {
-		float[][] QR = result.get(2);
+	public void testQRHouseholders() {
+		float[][] QR = householders.get(2);
 		
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				assertEquals(matrix[i][j], QR[i][j], 0.05);
+				assertEquals(matrix[i][j], QR[i][j], 0.005);
 			}
 		}
+	}
+	
+	@Test
+	public void testQRGivens() {
+		float[][] QR = givens.get(2);
 		
-		//assertEquals(matrix, QR, .005);
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				assertEquals(matrix[i][j], QR[i][j], 0.0005);
+			}
+		}
 	}
 	
 	/**

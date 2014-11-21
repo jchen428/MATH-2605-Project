@@ -30,10 +30,21 @@ public abstract class Base {
 				{2, 6, 34},
 				{5, 7, 2},
 		};
+		float[][] mat3 = new float[][] {
+				{0,5,36,3,5,7},
+				{23,0,5,3,2,5},
+				{4,2,0,6,35,3},
+				{7,75,3,0,3,7},
+				{34,3,6,6,0,6},
+				{6,46,8,9,5,0},
+				{4,2,2,4,2,72}
+		};
 		//qr_fact_givens(mat);
 		//qr_fact_givens(mat2);
-		qr_fact_househ(mat);
+		//qr_fact_givens(mat3);
+		//qr_fact_househ(mat);
 		//qr_fact_househ(mat2);
+		//qr_fact_househ(mat3);
 	}
 		
 	private static Scanner keyboard = new Scanner(System.in);
@@ -230,39 +241,22 @@ public abstract class Base {
 			Q = BasicFunctions.matrixMult(Q, H.get(i));
 		}
 		
-		//Make Q n x 3 and R 3 x 3
-		float[][] QFinal = new float[Q.length][3];
-		float[][] RFinal = new float[3][3];
+		float[][] QR = BasicFunctions.matrixMult(Q, R);
 		
-		for (int i = 0; i < Q.length; i++) {
-			for (int j = 0; j < 3; j++) {
-				QFinal[i][j] = Q[i][j];
-			}
-		}
-		
-		//Remove rows of zeroes
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				RFinal[i][j] = R[i][j];
-			}
-		}
-		
-		float[][] QR = BasicFunctions.matrixMult(QFinal, RFinal);
-		
-		/*//Print results
+		//Print results
 		System.out.println("A = ");
 		BasicFunctions.print(mat);
 		System.out.println("Q = ");
-		BasicFunctions.print(QFinal);
+		BasicFunctions.print(Q);
 		System.out.println("R = ");
-		BasicFunctions.print(RFinal);
+		BasicFunctions.print(R);
 		System.out.println("QR = ");
-		BasicFunctions.print(QR);*/
+		BasicFunctions.print(QR);
 		
 		//Format for return
 		ArrayList<float[][]> result = new ArrayList<float[][]>();
-		result.add(QFinal);
-		result.add(RFinal);
+		result.add(Q);
+		result.add(R);
 		result.add(QR);
 		
 		return result;
@@ -312,37 +306,20 @@ public abstract class Base {
         }
          
         q = BasicFunctions.transpose(q);
+  		
+  		float[][] QR = BasicFunctions.matrixMult(q, mat);
         
-        //Make Q n x 3 and R 3 x 3
-  		float[][] QFinal = new float[q.length][3];
-  		float[][] RFinal = new float[3][3];
-  		
-  		for (int i = 0; i < q.length; i++) {
-  			for (int j = 0; j < 3; j++) {
-  				QFinal[i][j] = q[i][j];
-  			}
-  		}
-  		
-  		//Remove rows of zeroes
-  		for (int i = 0; i < 3; i++) {
-  			for (int j = 0; j < 3; j++) {
-  				RFinal[i][j] = mat[i][j];
-  			}
-  		}
-  		
-  		float[][] QR = BasicFunctions.matrixMult(QFinal, RFinal);
-        
-        /*//Print out Q, R, and QR to check that it equals the input
+        //Print out Q, R, and QR to check that it equals the input
         System.out.println("Q:");
-        BasicFunctions.print(QFinal);
+        BasicFunctions.print(q);
         System.out.println("R:");
-        BasicFunctions.print(RFinal);
+        BasicFunctions.print(mat);
         System.out.println("QR:");
-        BasicFunctions.print(BasicFunctions.matrixMult(QFinal, RFinal));*/
+        BasicFunctions.print(BasicFunctions.matrixMult(q, mat));
         
         //Add Q and R to the ArrayList to return
-        ret.add(QFinal);
-        ret.add(RFinal);
+        ret.add(q);
+        ret.add(mat);
         ret.add(QR);
         
 		return ret;
@@ -363,17 +340,32 @@ public abstract class Base {
 			return null;
 		}
 		
+		//Set Q and R
+		Q = QR.get(0);
+		R = QR.get(1);
+		
+		//Make Q n x 3 and R 3 x 3
+		float[][] QFinal = new float[Q.length][3];
+		float[][] RFinal = new float[3][3];
+		
+		for (int i = 0; i < Q.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				QFinal[i][j] = Q[i][j];
+			}
+		}
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				RFinal[i][j] = R[i][j];
+			}
+		}
+		
 		//Iterate N times
 		for (int it = 0; it < N; it++) {
-			//Set Q and R
-			Q = QR.get(0);
-			R = QR.get(1);
-			
 			//b = Q^T * r
-			float[][] b = BasicFunctions.matrixMult(BasicFunctions.transpose(Q),
-					residuals);
+			float[][] b = BasicFunctions.matrixMult(
+					BasicFunctions.transpose(QFinal), residuals);
 			//Solve R * x = Q^T * r by back substitution
-			x = BasicFunctions.backSub(R, b);
+			x = BasicFunctions.backSub(RFinal, b);
 			//beta = beta - x
 			beta = BasicFunctions.matrixAdd(beta, BasicFunctions.scalarMult(x,
 					-1));

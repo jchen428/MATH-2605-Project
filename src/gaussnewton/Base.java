@@ -94,7 +94,7 @@ public abstract class Base {
 		float c = keyboard.nextFloat();
 		beta = new float[][] {{a}, {b}, {c}};
 		
-		System.out.println("Beta = ");
+		System.out.println("Initial Beta = ");
 		BasicFunctions.print(beta);
 		
 		//Set number of iterations
@@ -103,7 +103,7 @@ public abstract class Base {
 	}
 	
 	/**
-	 * Constructs the beta, residuals, and jacobian matrices
+	 * Constructs the residuals, and jacobian matrices
 	 */
 	public void construct() {
 		int n = pairs.size();
@@ -148,7 +148,7 @@ public abstract class Base {
 		System.out.println("1. Householders reflections");
 		System.out.println("2. Givens rotations");
 
-		BasicFunctions.print(gaussNewton(keyboard.nextInt()));
+		gaussNewton(keyboard.nextInt());
 	}
 	
 	/**
@@ -392,6 +392,9 @@ public abstract class Base {
 				jacobian[i][2] = drdB3(b1, b2, b3, pairs.get(i).getX());
 			}
 		}
+		
+		System.out.println("Final Beta = ");
+		BasicFunctions.print(beta);
 		
 		return beta;
 	}

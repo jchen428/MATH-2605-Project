@@ -42,7 +42,10 @@ public class PowerMethodConvergance {
 	return returnMe; //return eigenvalue and eigenvector
     }
     
-    public static void printValues(float[] eigenvector, float eigenvalue) {
+    public static void printValues(float[][] matrix, float[] vector, float tolerance, int MaxTimes) {
+    	ArrayList values = powerMethod(matrix, vector, tolerance, MaxTimes);
+    	float eigenvalue = (float) values.get(0);
+    	float[] eigenvector = (float[]) values.get(1);
     	System.out.println("Eigenvalue: " + eigenvalue);
     	System.out.print("Eigenvector: [");
     	for (int i = 0; i < eigenvector.length - 1; i++) {

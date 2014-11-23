@@ -13,7 +13,7 @@ public class PowerMethodConvergance {
 	float[] nextIterationVector = vector;
 	float eigenvalue = 0;
 	float[] eigenvector = new float[matrix.length];
-	float previousEigenvalue = Float.POSITIVE_INFINITY;
+	float previousEigenvalue = 999;
 	int counter = 0;
 	while (error > tolerance && MaxTimes > counter) {
 	    previousEigenvalue = eigenvalue;
@@ -68,7 +68,7 @@ public class PowerMethodConvergance {
 	    return null;
 	}
 	int numberOfIterations = (int) data.get(2);
-	ArrayList data2 = powerMethod(inverseMatrix, startingVector, (float) 0.00005, 100);
+	ArrayList data2 = powerMethod(BasicFunctions.inverseOf2x2(matrix), startingVector, (float) 0.00005, 100);
 	if (data2 == null) {
 	    return null;
 	}

@@ -62,7 +62,7 @@ public abstract class Base {
 		//Read data from file
 		System.out.print("Enter file path to data: ");
 		String filePath = keyboard.nextLine();
-		//C:\Users\Jesse\Downloads\TestData.txt
+		
 		try {
 			File file = new File(filePath);
 			FileReader reader = new FileReader(file);
@@ -100,6 +100,7 @@ public abstract class Base {
 		//Set number of iterations
 		System.out.print("Enter number of iterations: ");
 		N = keyboard.nextInt();
+		System.out.println("Number of iterations = " + N + "\n");
 	}
 	
 	/**
@@ -118,8 +119,6 @@ public abstract class Base {
 			residuals[i][0] = pairs.get(i).getY() - function(b1, b2, b3,
 					pairs.get(i).getX());
 		}
-		
-		System.out.println("Number of iterations = " + N);
 		
 		System.out.println("Residuals = ");
 		BasicFunctions.print(residuals);

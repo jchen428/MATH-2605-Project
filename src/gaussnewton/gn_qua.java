@@ -13,6 +13,7 @@ public class gn_qua extends Base {
 	 * @param args Unused
 	 */
 	public static void main(String[] args) {
+		//C:\Users\Jesse\Downloads\TestData1.txt
 		gn_qua execute = new gn_qua();
 	}
 	

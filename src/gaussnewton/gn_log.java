@@ -13,6 +13,7 @@ public class gn_log extends Base {
 	 * @param args Unused
 	 */
 	public static void main(String[] args) {
+		//C:\Users\Jesse\Downloads\TestData3.txt
 		gn_log execute = new gn_log();
 	}
 	

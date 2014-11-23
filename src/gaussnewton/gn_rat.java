@@ -13,7 +13,6 @@ public class gn_rat extends Base {
 	 * @param args Unused
 	 */
 	public static void main(String[] args) {
-		//C:\Users\Jesse\Downloads\TestData4.txt
 		gn_rat execute = new gn_rat();
 	}
 	

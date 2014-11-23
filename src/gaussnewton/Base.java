@@ -16,39 +16,8 @@ import basicfunctions.BasicFunctions;
  * @author Jesse
  */
 public abstract class Base {
-	
-	/*public static void main(String[] args) {
-		float[][] mat = new float[][] {
-				{2, 6, 34},
-				{5, 7, 2},
-				{4, 45, 67},
-		};
-		float[][] mat2 = new float[][] {
-				{2, 6, 34},
-				{5, 7, 2},
-				{4, 45, 67},
-				{2, 6, 34},
-				{5, 7, 2},
-		};
-		float[][] mat3 = new float[][] {
-				{0,5,36,3,5,7},
-				{23,0,5,3,2,5},
-				{4,2,0,6,35,3},
-				{7,75,3,0,3,7},
-				{34,3,6,6,0,6},
-				{6,46,8,9,5,0},
-				{4,2,2,4,2,72}
-		};
-		//qr_fact_givens(mat);
-		//qr_fact_givens(mat2);
-		//qr_fact_givens(mat3);
-		//qr_fact_househ(mat);
-		//qr_fact_househ(mat2);
-		//qr_fact_househ(mat3);
-	}*/
 		
 	private static Scanner keyboard = new Scanner(System.in);
-	
 	private static ArrayList<Pair> pairs = new ArrayList<Pair>();
 	private static int N;
 	private static float[][] beta;
@@ -272,6 +241,7 @@ public abstract class Base {
 		int m = mat.length;
 		int n = mat[0].length;
 		ArrayList<float[][]> ret = new ArrayList<>();
+		float[][] a = mat;
 		float[][] g = BasicFunctions.makeIdentity(m);
 		float[][] q = BasicFunctions.makeIdentity(m);
 		
@@ -309,11 +279,13 @@ public abstract class Base {
   		float[][] QR = BasicFunctions.matrixMult(q, mat);
         
         //Print out Q, R, and QR to check that it equals the input
-        System.out.println("Q:");
+  		System.out.println("A = ");
+		BasicFunctions.print(a);
+        System.out.println("Q = ");
         BasicFunctions.print(q);
-        System.out.println("R:");
+        System.out.println("R = ");
         BasicFunctions.print(mat);
-        System.out.println("QR:");
+        System.out.println("QR = ");
         BasicFunctions.print(BasicFunctions.matrixMult(q, mat));
         
         //Add Q and R to the ArrayList to return
@@ -329,37 +301,37 @@ public abstract class Base {
 		int n = pairs.size();
 		float[][] Q, R, x;
 		
-		//Determine whether to use Householders reflections or Givens rotations
-		if (in == 1) {
-			QR = qr_fact_househ(jacobian);
-		} else if (in == 2) {
-			QR = qr_fact_givens(jacobian);
-		} else {
-			System.out.println("Invalid input");
-			return null;
-		}
-		
-		//Set Q and R
-		Q = QR.get(0);
-		R = QR.get(1);
-		
-		//Make Q n x 3 and R 3 x 3
-		float[][] QFinal = new float[Q.length][3];
-		float[][] RFinal = new float[3][3];
-		
-		for (int i = 0; i < Q.length; i++) {
-			for (int j = 0; j < 3; j++) {
-				QFinal[i][j] = Q[i][j];
-			}
-		}
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				RFinal[i][j] = R[i][j];
-			}
-		}
-		
 		//Iterate N times
 		for (int it = 0; it < N; it++) {
+			//Determine whether to use Householders reflections or Givens rotations
+			if (in == 1) {
+				QR = qr_fact_househ(jacobian);
+			} else if (in == 2) {
+				QR = qr_fact_givens(jacobian);
+			} else {
+				System.out.println("Invalid input");
+				return null;
+			}
+			
+			//Set Q and R
+			Q = QR.get(0);
+			R = QR.get(1);
+			
+			//Make Q n x 3 and R 3 x 3
+			float[][] QFinal = new float[Q.length][3];
+			float[][] RFinal = new float[3][3];
+			
+			for (int i = 0; i < Q.length; i++) {
+				for (int j = 0; j < 3; j++) {
+					QFinal[i][j] = Q[i][j];
+				}
+			}
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					RFinal[i][j] = R[i][j];
+				}
+			}
+		
 			//b = Q^T * r
 			float[][] b = BasicFunctions.matrixMult(
 					BasicFunctions.transpose(QFinal), residuals);

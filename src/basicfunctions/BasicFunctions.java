@@ -6,48 +6,6 @@ package basicfunctions;
  */
 public class BasicFunctions {
 	
-	/*public static void main(String[] args) {
-		float[][] a = new float[][] {
-				{2, 6, 34, 7, 7},
-				{5, 7, 2, 56, 4},
-				{4, 45, 67, 3, 75},
-		};
-		float[][] b = new float[][] {
-				{27, 8, 54, 2, 6},
-				{84, 3, 8, 90, 12},
-				{4, 89, 12, 68, 3}
-		};
-		float[][] c = new float[][] {
-				{2, 6, 34, 8},
-				{5, 7, 2, 6},
-				{4, 45, 67, 2},
-				{4, 45, 67, 2}
-		};
-		float[][] d = new float[][] {
-				{2, 4},
-				{3, 5}
-		};
-		float[][] e = new float[][] {
-				{2, 6, 34, 8},
-				{0, 7, 2, 6},
-				{0, 0, 67, 2},
-				{0, 0, 0, 2}
-		};
-		float[][] v = {{7}, {3}, {8}, {4}};
-		float s = 2;
-		
-		//System.out.println("a + b = ");
-		//print(matrixAdd(a, b));
-		//System.out.println("Norm(a) = " + norm(v));
-		//print(scalarMult(a, s));
-		//print(scalarMult(v, s));
-		//System.out.println(norm(v));
-		//print(unitize(v));
-		//print(trim(a, 1, 2, 2, 4));
-		//print(pad(c, 7));
-		//print(matrixMult(e, backSub(e, v)));
-	}*/
-	
 	/**
 	 * Prints a matrix
 	 * 

@@ -42,6 +42,16 @@ public class PowerMethodConvergance {
 	return returnMe; //return eigenvalue and eigenvector
     }
     
+    public static void printValues(float[] eigenvector, float eigenvalue) {
+    	System.out.println("Eigenvalue: " + eigenvalue);
+    	System.out.print("Eigenvector: [");
+    	for (int i = 0; i < eigenvector.length - 1; i++) {
+    		System.out.print(eigenvector[i] + ", ");
+    	}
+    	System.out.print(eigenvector[eigenvector.length - 1] + "]");
+    	System.out.println("");
+    }
+    
     public static ArrayList makeManyMatricies() {
 	Random r = new Random();
 	int counter = 0;

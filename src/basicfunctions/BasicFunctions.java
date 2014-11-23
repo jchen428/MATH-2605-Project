@@ -332,7 +332,7 @@ public class BasicFunctions {
 		float c = mat[1][0];
 		float d = mat[1][1];
 		
-		float det = (a*d) - (b*c);
+		float det = determinant(mat);
 		
 		float[][] ret = new float[2][2];
 		

@@ -13,7 +13,7 @@ public class PowerMethodConvergance {
 	float[] nextIterationVector = vector;
 	float eigenvalue = 0;
 	float[] eigenvector = new float[matrix.length];
-	float previousEigenvalue = 0;
+	float previousEigenvalue = Float.POSITIVE_INFINITY;
 	int counter = 0;
 	while (error > tolerance && MaxTimes > counter) {
 	    previousEigenvalue = eigenvalue;

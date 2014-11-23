@@ -6,7 +6,7 @@ package basicfunctions;
  */
 public class BasicFunctions {
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		float[][] a = new float[][] {
 				{2, 6, 34, 7, 7},
 				{5, 7, 2, 56, 4},
@@ -46,7 +46,7 @@ public class BasicFunctions {
 		//print(trim(a, 1, 2, 2, 4));
 		//print(pad(c, 7));
 		//print(matrixMult(e, backSub(e, v)));
-	}
+	}*/
 	
 	/**
 	 * Prints a matrix

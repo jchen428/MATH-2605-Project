@@ -17,7 +17,7 @@ import basicfunctions.BasicFunctions;
  */
 public abstract class Base {
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		float[][] mat = new float[][] {
 				{2, 6, 34},
 				{5, 7, 2},
@@ -45,7 +45,7 @@ public abstract class Base {
 		//qr_fact_househ(mat);
 		//qr_fact_househ(mat2);
 		//qr_fact_househ(mat3);
-	}
+	}*/
 		
 	private static Scanner keyboard = new Scanner(System.in);
 	

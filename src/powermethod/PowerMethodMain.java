@@ -38,7 +38,7 @@ public class PowerMethodMain {
 		JFreeChart chart = ChartFactory.createScatterPlot("Determinants vs Traces - Coloring: Iterations","Determinants","traces", dataset1);
 		XYPlot xyPlot = (XYPlot) chart.getPlot();
         XYItemRenderer renderer = xyPlot.getRenderer();
-        double size = 2;
+        double size = 1;
         double delta = size / 2.0;
         Shape shape2 = new Ellipse2D.Double(-delta, -delta, size, size);
         renderer.setSeriesShape(0, shape2);
@@ -63,7 +63,7 @@ public class PowerMethodMain {
 	    XYPlot xyPlot2 = (XYPlot) chart2.getPlot();
 	    XYItemRenderer renderer2 = xyPlot2.getRenderer();
 	    
-	    double size2 = 2;
+	    double size2 = 1;
 	    double delta2 = size / 2.0;
 	    Shape shape3 = new Ellipse2D.Double(-delta2, -delta2, size2, size2);
 	    renderer2.setSeriesShape(0, shape3);

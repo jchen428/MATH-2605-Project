@@ -177,7 +177,8 @@ public abstract class Base {
 		float[][] R = mat;
 		
 		//Iterate for Householder reflections
-		for (int iteration = 0; iteration < mat[0].length; iteration++) {
+		for (int iteration = 0; iteration < mat.length &&
+				iteration < mat[0].length; iteration++) {
 			//Make current column
 			x = BasicFunctions.trim(R, iteration, R.length - 1, iteration,
 					iteration);
@@ -185,6 +186,7 @@ public abstract class Base {
 			//v = x + ||x||e
 			v = x;
 			v[0][0] += BasicFunctions.norm(x);
+			
 			
 			//Unitize v
 			u = BasicFunctions.unitize(v);
@@ -211,7 +213,7 @@ public abstract class Base {
 		
 		float[][] QR = BasicFunctions.matrixMult(Q, R);
 		
-		//Print results
+		/*//Print results
 		System.out.println("A = ");
 		BasicFunctions.print(mat);
 		System.out.println("Q = ");
@@ -219,7 +221,7 @@ public abstract class Base {
 		System.out.println("R = ");
 		BasicFunctions.print(R);
 		System.out.println("QR = ");
-		BasicFunctions.print(QR);
+		BasicFunctions.print(QR);*/
 		
 		//Format for return
 		ArrayList<float[][]> result = new ArrayList<float[][]>();
@@ -278,7 +280,7 @@ public abstract class Base {
   		
   		float[][] QR = BasicFunctions.matrixMult(q, mat);
         
-        //Print out Q, R, and QR to check that it equals the input
+        /*//Print out Q, R, and QR to check that it equals the input
   		System.out.println("A = ");
 		BasicFunctions.print(a);
         System.out.println("Q = ");
@@ -286,7 +288,7 @@ public abstract class Base {
         System.out.println("R = ");
         BasicFunctions.print(mat);
         System.out.println("QR = ");
-        BasicFunctions.print(BasicFunctions.matrixMult(q, mat));
+        BasicFunctions.print(BasicFunctions.matrixMult(q, mat));*/
         
         //Add Q and R to the ArrayList to return
         ret.add(q);
